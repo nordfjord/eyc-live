@@ -1,0 +1,201 @@
+.uppercase {
+  text-transform: uppercase;
+}
+.lane-container {
+  border-radius: 5px;
+  background-color: #111;
+  padding: 5px;
+  margin-bottom: 10px;
+}
+.lane-row,
+.lane-name {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+.lane-name {
+  font-size: 10px;
+  margin-bottom: 0px;
+  font-weight: bold;
+  text-align: center;
+  color: #fff;
+}
+.lane-row {
+  margin-bottom: 5px;
+  user-select: none;
+}
+.lane-row > li {
+  float: left;
+  background-color: transparent;
+  list-style: none;
+  padding: 0 0 0 2px;
+  margin: 0;
+  width: 9.52381%;
+}
+.lane-row > li.tenth-frame {
+  width: 14.285715%;
+}
+.frame-number-container {
+  width: 100%;
+  background-color: #b34c3c;
+  margin: 0;
+  padding: 0;
+  border-radius: 2px;
+  display: block;
+  height: 20px;
+  text-align: center;
+  color: #fff;
+  font-weight: bold;
+}
+.score-container,
+.balls-container {
+  height: 60px;
+  background-color: #b34c3c;
+  border-radius: 2px;
+  margin: 1px 0 0 0;
+  padding: 0;
+  width: 100%;
+  color: #fff;
+  font-size: 12px;
+}
+.balls-container {
+  display: none;
+  width: 100%;
+  height: 65px;
+}
+.score-container {
+  line-height: 20px;
+  padding-top: 5px;
+}
+.score-container > .frame-score {
+  font-size: 25px;
+  text-align: center;
+  padding-top: 8px;
+  clear: both;
+  display: block;
+}
+.score-container > .throw-score {
+  float: left;
+  width: 50%;
+  text-align: center;
+  font-size: 22px;
+}
+.score-container.tenth-frame > .throw-score {
+  width: 33%;
+}
+.header-home-icon {
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  top: 5px;
+  right: 10px;
+}
+.lane-row > li:last-child .score-container > .ball {
+  width: 33%;
+}
+.loading-message {
+  font-size: 25px;
+  font-weight: bold;
+  width: 100%;
+  text-align: center;
+  margin-top: 15px;
+}
+.pins-container {
+  width: 80%;
+  padding-left: 6px;
+  padding-top: 5px;
+}
+.ballRow {
+  clear: both;
+  height: 12px;
+}
+.ball {
+  border-radius: 5em 5em 5em 5em;
+  display: block;
+  float: left;
+  background-color: #fff;
+  width: 20%;
+  height: 100%;
+  margin: 0 2%;
+}
+.downed {
+  background-color: #606568;
+}
+.ballPlaceholder {
+  display: block;
+  float: left;
+  background-color: transparent;
+  width: 12%;
+  height: 100%;
+}
+.frame-throw-number {
+  position: relative;
+  bottom: 15px;
+  font-size: 25px;
+  font-weight: bold;
+  color: rgba(255,255,255,0.5);
+}
+.single-select {
+  border: 1px solid #e5e5e5;
+  border-radius: 4px 4px 4px 4px;
+  margin-bottom: 2px;
+  padding: 10px;
+}
+.single-select > a {
+  display: block;
+}
+.strong {
+  font-weight: bold;
+}
+.embedded-video {
+  width: 100%;
+  margin: 0 auto;
+}
+.browsehappy {
+  margin: 0.2em 0;
+  background: #ccc;
+  color: #000;
+  padding: 0.2em 0;
+}
+/* Space out content a bit */
+body {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  background: #1a1a1a;
+}
+/* Everything but the jumbotron gets side spacing for mobile first views */
+.header,
+.marketing,
+.footer {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+/* Custom page header */
+.header {
+  border-bottom: 1px solid #e5e5e5;
+}
+/* Make the masthead heading the same height as the navigation */
+.header h3 {
+  margin-top: 0;
+  margin-bottom: 0;
+  line-height: 40px;
+  padding-bottom: 19px;
+}
+/* Custom page footer */
+.footer {
+  padding-top: 19px;
+  color: #777;
+  border-top: 1px solid #e5e5e5;
+}
+.btn-bowl {
+  background-color: #b34c3c;
+  color: #fff;
+}
+.selector-form {
+  color: #b34c3c;
+}
+.page-title {
+  color: #fff;
+  width: 100%;
+  text-align: center;
+}

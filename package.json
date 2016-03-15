@@ -1,0 +1,16 @@
+{
+  "name": "eyc-live",
+  "version": "1.0.0",
+  "description": "eyc livescoring through xbowling api",
+  "main": "index.js",
+  "dependencies": {
+    "bootstrap": "^3.3.6",
+    "mithril": "^0.2.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT"
+}
