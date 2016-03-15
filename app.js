@@ -66,7 +66,7 @@ lane_component.view = function(ctrl){
     m('.lane-name', ctrl.lane_number),
     ctrl.players().map(function(player){
       return m('', [
-        m('.lane-name', player.name),
+        m('.lane-name', window.decodeURIComponent(player.name)),
         m('ul.lane-row.clearfix', [
           range10.map(function(idx, index){
             var frameOptions = {};
