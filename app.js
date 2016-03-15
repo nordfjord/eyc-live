@@ -96,7 +96,7 @@ var main_component = {};
 main_component.controller = function(){
   var ctrl = {};
   ctrl.lanes = [];
-  for (var i = 1; i <= 22; ++i) {
+  for (var i = 0; i <= 10; ++i) {
     ctrl.lanes.push(i);
   }
   return ctrl;
@@ -105,11 +105,12 @@ main_component.controller = function(){
 main_component.view = function(ctrl){
   return m('.bowling-container.container-fluid', [
     m('h1.page-title', 'EYC 2016 Live Scoring'),
-    m('.row', [
-      ctrl.lanes.map(function(lane_number){
-        return m('.col-xs-12.col-sm-12.col-md-6.col-lg-6', m.component(lane_component, lane_number));
-      })
-    ]),
+    ctrl.lanes.map(function(lane_number){
+      return m('.row', [
+        m('.col-xs-12.col-sm-12.col-md-6.col-lg-6', m.component(lane_component, (lane_number*2) + 1)),
+        m('.col-xs-12.col-sm-12.col-md-6.col-lg-6', m.component(lane_component, (lane_number*2) + 2))
+      ]);
+    }),
     m('.footer', [
       m('p', [
         m('i.fa.fa-heart'),
