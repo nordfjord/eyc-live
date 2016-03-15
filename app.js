@@ -91,6 +91,8 @@ lane_component.view = function(ctrl){
   ]);
 };
 
+var USE_ICON = false;
+
 var main_component = {};
 
 main_component.controller = function(){
@@ -116,10 +118,36 @@ main_component.view = function(ctrl){
       m('p', [
         m('i.fa.fa-heart'),
         ' from ',
-        m('a[href=https://twitter.com/enordfjord]', 'Einar')
+        m('a[href=https://twitter.com/enordfjord]', 'Einar'),
+        m('a[href=#].center', {
+          onclick: scrollToTop,
+          config: changeToIcon
+        }, [
+          m('i.fa.fa-arrow-circle-o-up', {
+            style: 'font-size: 24px',
+            title: 'Scroll to top'
+          })
+        ]),
+        m('span.pull-right', [
+          'Uses the ',
+          m('a[href=https://xbowling.com]', 'XBowling'),
+          ' API'
+        ])
       ])
     ])
   ]);
 };
 
 m.mount(document.body, main_component);
+
+function changeToIcon(el, init){
+  if (!init && el.offsetWidth < 75) {
+    USE_ICON = true;
+  }
+}
+
+function scrollToTop(ev){
+  if (ev.preventDefault) ev.preventDefault();
+  TweenLite.to(window, 0.75, {scrollTo: {y: 0}, ease: Power2.easeInOut});
+  m.redraw.strategy('none');
+}

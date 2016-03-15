@@ -2,6 +2,20 @@ $frame-bg = #B34C3C;
 $well-bg = #1d1f21;
 $body-bg-color = lighten($well-bg, 5%);
 $text-color= #c5c8c6;
+$link-color = lighten($text-color, 10%);
+
+a {
+  color: $link-color;
+  &:hover, &:active, &:focus {
+    color: $link-color;
+  }
+}
+
+.center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
 
 .uppercase {
     text-transform: uppercase;
@@ -217,7 +231,7 @@ body {
 .footer {
     padding-top: 19px;
     color: #777;
-    border-top: 1px solid #e5e5e5;
+    border-top: 1px solid #555;
 }
 
 .btn-bowl {
