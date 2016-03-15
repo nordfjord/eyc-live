@@ -107,7 +107,7 @@ main_component.controller = function(){
 main_component.view = function(ctrl){
   return m('.bowling-container.container-fluid', [
     m('h1.page-title', 'EYC 2016 Live Scoring'),
-    m('.sub-title', 'Scores are refreshed every 30 seconds'),
+    m('h2.sub-title', 'Scores are refreshed every 30 seconds'),
     ctrl.lanes.map(function(lane_number){
       return m('.row', [
         m('.col-xs-12.col-sm-12.col-md-6.col-lg-6', m.component(lane_component, (lane_number*2) + 1)),

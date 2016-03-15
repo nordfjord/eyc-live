@@ -4,6 +4,14 @@ $body-bg-color = lighten($well-bg, 5%);
 $text-color= #c5c8c6;
 $link-color = lighten($text-color, 10%);
 
+pxem(a, b=16) {
+  return (a/b)em;
+}
+
+body {
+  font-size: 16px;
+}
+
 a {
   color: $link-color;
   &:hover, &:active, &:focus {
@@ -22,10 +30,10 @@ a {
 }
 
 .lane-container {
-    border-radius: 5px;
+    border-radius: pxem(5);
     background-color: $well-bg;
-    padding: 5px;
-    margin-bottom: 10px;
+    padding: pxem(5);
+    margin-bottom: pxem(10);
 }
 
 .lane-row, .lane-name {
@@ -35,21 +43,21 @@ a {
 }
 
 .lane-name {
-    font-size: 10px;
-    margin-bottom: 0px;
+    font-size: pxem(14);
+    margin-bottom: pxem(0);
     font-weight: bold;
     text-align: center;
     color: $text-color;
 }
 
 .lane-row {
-    margin-bottom: 5px;
+    margin-bottom: pxem(5);
     user-select: none;
     > li {
         float: left;
         background-color: transparent;
         list-style: none;
-        padding: 0 0 0 2px;
+        padding: 0 0 0 pxem(2);
         margin: 0;
         width: 9.523810%;
     }
@@ -65,38 +73,38 @@ a {
     background-color: $frame-bg;
     margin: 0;
     padding: 0;
-    border-radius: 2px;
+    border-radius: pxem(2);
     display: block;
-    height: 20px;
+    min-height: pxem(20);
     text-align: center;
     color: $text-color;
     font-weight: bold;
 }
 
 .score-container, .balls-container {
-    height: 60px;
+    min-height: pxem(64);
     background-color: $frame-bg;
-    border-radius: 2px;
-    margin: 1px 0 0 0;
+    border-radius: pxem(2);
+    margin: pxem(1) 0 0 0;
     padding: 0;
     width: 100%;
     color: $text-color;
-    font-size: 12px;
 }
 
 .balls-container {
     display: none;
     width: 100%;
-    height: 65px;
+    height: pxem(65);
 }
 
 .score-container {
-    line-height: 20px;
-    padding-top: 5px;
+    line-height: pxem(20);
+    padding-top: pxem(5);
     > .frame-score {
-        font-size: 25px;
+        font-size: pxem(25);
         text-align: center;
-        padding-top: 8px;
+        padding-top: pxem(8);
+        padding-bottom: pxem(4);
         clear: both;
         display: block;
     }
@@ -104,7 +112,7 @@ a {
         float: left;
         width: 50%;
         text-align: center;
-        font-size: 22px;
+        font-size: pxem(22);
     }
 }
 .score-container.tenth-frame > .throw-score {
@@ -112,11 +120,11 @@ a {
 }
 
 .header-home-icon {
-    width: 50px;
-    height: 50px;
+    width: pxem(50);
+    height: pxem(50);
     position: absolute;
-    top: 5px;
-    right: 10px;
+    top: pxem(5);
+    right: pxem(10);
 }
 
 .lane-row > li:last-child .score-container > .ball {
@@ -124,22 +132,22 @@ a {
 }
 
 .loading-message {
-    font-size: 25px;
+    font-size: pxem(25);
     font-weight: bold;
     width: 100%;
     text-align: center;
-    margin-top: 15px;
+    margin-top: pxem(15);
 }
 
 .pins-container {
     width: 80%;
-    padding-left: 6px;
-    padding-top: 5px;
+    padding-left: pxem(6);
+    padding-top: pxem(5);
 }
 
 .ballRow {
     clear: both;
-    height: 12px;
+    height: pxem(12);
 }
 
 .ball {
@@ -166,17 +174,17 @@ a {
 
 .frame-throw-number {
     position: relative;
-    bottom: 15px;
-    font-size: 25px;
+    bottom: pxem(15);
+    font-size: pxem(25);
     font-weight: bold;
     color: rgba(255, 255, 255, 0.5);
 }
 
 .single-select {
-    border: 1px solid #E5E5E5;
-    border-radius: 4px 4px 4px 4px;
-    margin-bottom: 2px;
-    padding: 10px;
+    border: pxem(1) solid #E5E5E5;
+    border-radius: pxem(4) pxem(4) pxem(4) pxem(4);
+    margin-bottom: pxem(2);
+    padding: pxem(10);
 }
 
 .single-select > a {
@@ -201,8 +209,8 @@ a {
 
 /* Space out content a bit */
 body {
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding-top: pxem(20);
+    padding-bottom: pxem(20);
     background: $body-bg-color;
 }
 
@@ -210,28 +218,28 @@ body {
 .header,
 .marketing,
 .footer {
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: pxem(15);
+    padding-right: pxem(15);
 }
 
 /* Custom page header */
 .header {
-    border-bottom: 1px solid #e5e5e5;
+    border-bottom: pxem(1) solid #e5e5e5;
 }
 
 /* Make the masthead heading the same height as the navigation */
 .header h3 {
     margin-top: 0;
     margin-bottom: 0;
-    line-height: 40px;
-    padding-bottom: 19px;
+    line-height: pxem(40);
+    padding-bottom: pxem(19);
 }
 
 /* Custom page footer */
 .footer {
-    padding-top: 19px;
+    padding-top: pxem(19);
     color: #777;
-    border-top: 1px solid #555;
+    border-top: pxem(1) solid #555;
 }
 
 .btn-bowl {
@@ -248,13 +256,13 @@ body {
   color: $text-color;
   width: 100%;
   text-align: center;
-  margin-bottom: 10px;
+  margin-bottom: pxem(10);
 }
 
 .sub-title {
   color: $text-color;
   width: 100%;
   text-align: center;
-  margin-bottom: 40px;
-  font-size: 14px;
+  margin-bottom: pxem(40);
+  font-size: pxem(14);
 }
