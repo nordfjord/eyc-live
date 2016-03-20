@@ -11,8 +11,11 @@ a:focus {
 }
 .center {
   position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  text-align: center;
 }
 .uppercase {
   text-transform: uppercase;
@@ -72,6 +75,7 @@ a:focus {
   padding: 0;
   width: 100%;
   color: #c5c8c6;
+  position: relative;
 }
 .balls-container {
   display: none;
@@ -203,6 +207,14 @@ body {
   color: #777;
   border-top: 0.0625em solid #555;
 }
+.footer > p {
+  position: relative;
+}
+.score-container > .shot-number {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+}
 .btn-bowl {
   background-color: #b34c3c;
   color: #c5c8c6;
@@ -228,4 +240,66 @@ body {
   body {
     font-size: 20px;
   }
+}
+.settings {
+  position: absolute;
+  top: 1em;
+  right: 1em;
+}
+.settings > * > .fa {
+  color: #c5c8c6;
+}
+.pins {
+  position: relative;
+  margin: 0 0.375em;
+}
+.pin {
+  background-color: #272a2d;
+  position: absolute;
+  width: 0.75em;
+  height: 0.75em;
+  border-radius: 0.75em;
+}
+.pin.isStanding {
+  background-color: #fff;
+}
+.pin.pin-1 {
+  top: 0.0625em;
+  left: 42.85714285714286%;
+}
+.pin.pin-2 {
+  top: 0.8125em;
+  left: 28.571428571428573%;
+}
+.pin.pin-3 {
+  top: 0.8125em;
+  left: 57.142857142857146%;
+}
+.pin.pin-4 {
+  top: 1.5625em;
+  left: 14.285714285714286%;
+}
+.pin.pin-5 {
+  top: 1.5625em;
+  left: 42.85714285714286%;
+}
+.pin.pin-6 {
+  top: 1.5625em;
+  left: 71.42857142857143%;
+}
+.pin.pin-7 {
+  top: 2.3125em;
+  left: 0%;
+}
+.pin.pin-8 {
+  top: 2.3125em;
+  left: 28.571428571428573%;
+}
+.pin.pin-9 {
+  top: 2.3125em;
+  left: 57.142857142857146%;
+}
+.pin.pin-10 {
+  top: 2.3125em;
+  left: 85.71428571428572%;
 }

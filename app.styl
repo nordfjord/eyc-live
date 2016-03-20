@@ -21,8 +21,11 @@ a {
 
 .center {
   position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  text-align: center;
 }
 
 .uppercase {
@@ -89,6 +92,7 @@ a {
     padding: 0;
     width: 100%;
     color: $text-color;
+    position: relative;
 }
 
 .balls-container {
@@ -240,6 +244,15 @@ body {
     padding-top: pxem(19);
     color: #777;
     border-top: pxem(1) solid #555;
+    > p {
+      position: relative;
+    }
+}
+
+.score-container > .shot-number {
+  position: absolute;
+  top: 5px;
+  left: 5px;
 }
 
 .btn-bowl {
@@ -272,4 +285,89 @@ body {
   body {
     font-size: 20px;
   }
+}
+
+.settings {
+  position: absolute;
+  top: 1em;
+  right: 1em;
+  > * > .fa {
+    color: $text-color;
+  }
+}
+
+.pins {
+  position: relative;
+  margin: 0 pxem(6);
+}
+
+.pin {
+  background-color: $body-bg-color;
+  position: absolute;
+  width: pxem(12);
+  height: pxem(12);
+  border-radius: pxem(12);
+
+  &.isStanding {
+    background-color: #fff;
+  }
+}
+
+$pin-width = 100/7;
+
+$pin-row(n) {
+  top: pxem((n - 1) * 12 + 1);
+}
+$pin-spot(n) {
+  left: ((n - 1) * $pin-width)%;
+}
+
+.pin.pin-1 {
+  $pin-row(1);
+  $pin-spot(4);
+}
+
+.pin.pin-2 {
+  $pin-row(2);
+  $pin-spot(3);
+}
+
+.pin.pin-3 {
+  $pin-row(2);
+  $pin-spot(5);
+}
+
+.pin.pin-4 {
+  $pin-row(3);
+  $pin-spot(2);
+}
+
+.pin.pin-5 {
+  $pin-row(3);
+  $pin-spot(4);
+}
+
+.pin.pin-6 {
+  $pin-row(3);
+  $pin-spot(6);
+}
+
+.pin.pin-7 {
+  $pin-row(4);
+  $pin-spot(1);
+}
+
+.pin.pin-8 {
+  $pin-row(4);
+  $pin-spot(3);
+}
+
+.pin.pin-9 {
+  $pin-row(4);
+  $pin-spot(5);
+}
+
+.pin.pin-10 {
+  $pin-row(4);
+  $pin-spot(7);
 }
