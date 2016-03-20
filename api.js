@@ -16,9 +16,11 @@ function formatDate(d) {
 }
 
 function getLane(lane_number) {
-  // const endDate = new Date();
+  let endDate = new Date();
 
-  const endDate = new Date('2016-03-19T23:00:00');
+  if ((localStorage || {}).dev) {
+    endDate = new Date('2016-03-19T23:00:00');
+  }
   const startDate = new Date(+endDate - (SCORE_TIMEOUT_MINUTES * 6e4));
 
   return m.request({

@@ -18,7 +18,6 @@ if ((localStorage || {}).dev) {
 
 
 import lane_component from './lane';
-import store from './store';
 
 import settings from './settings';
 
