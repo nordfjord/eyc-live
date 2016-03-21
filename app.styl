@@ -8,8 +8,16 @@ pxem(a, b=16) {
   return (a/b)em;
 }
 
+
+@require './pins.styl';
+
 body {
   font-size: 16px;
+}
+@media only screen and (max-width: 480px) {
+  body {
+    font-size: 12px;
+  }
 }
 
 a {
@@ -88,11 +96,12 @@ a {
     min-height: pxem(64);
     background-color: $frame-bg;
     border-radius: pxem(2);
-    margin: pxem(1) 0 0 0;
+    margin: .1em 0 0 0;
     padding: 0;
     width: 100%;
     color: $text-color;
     position: relative;
+    overflow: hidden;
 }
 
 .balls-container {
@@ -111,12 +120,18 @@ a {
         padding-bottom: pxem(4);
         clear: both;
         display: block;
+        @media only screen and (max-width: 480px) {
+          font-size: pxem(20);
+        }
     }
     > .throw-score {
         float: left;
         width: 50%;
         text-align: center;
         font-size: pxem(22);
+        @media only screen and (max-width: 480px) {
+          font-size: pxem(18);
+        }
     }
 }
 .score-container.tenth-frame > .throw-score {
@@ -249,12 +264,6 @@ body {
     }
 }
 
-.score-container > .shot-number {
-  position: absolute;
-  top: 5px;
-  left: 5px;
-}
-
 .btn-bowl {
     background-color:#B34C3C;
     color: $text-color;
@@ -281,93 +290,14 @@ body {
   font-size: pxem(24);
 }
 
-@media (-webkit-min-device-pixel-ratio: 1.3), (min-device-pixel-ratio: 1.3), (min-resolution: 120dpi) {
-  body {
-    font-size: 20px;
-  }
-}
-
 .settings {
   position: absolute;
   top: 1em;
   right: 1em;
   > * > .fa {
     color: $text-color;
+    @media only screen and (max-width: 480px) {
+      font-size: 2em;
+    }
   }
-}
-
-.pins {
-  position: relative;
-  margin: 0 pxem(6);
-}
-
-.pin {
-  background-color: $body-bg-color;
-  position: absolute;
-  width: pxem(12);
-  height: pxem(12);
-  border-radius: pxem(12);
-
-  &.isStanding {
-    background-color: #fff;
-  }
-}
-
-$pin-width = 100/7;
-
-$pin-row(n) {
-  top: pxem((n - 1) * 12 + 1);
-}
-$pin-spot(n) {
-  left: ((n - 1) * $pin-width)%;
-}
-
-.pin.pin-1 {
-  $pin-row(1);
-  $pin-spot(4);
-}
-
-.pin.pin-2 {
-  $pin-row(2);
-  $pin-spot(3);
-}
-
-.pin.pin-3 {
-  $pin-row(2);
-  $pin-spot(5);
-}
-
-.pin.pin-4 {
-  $pin-row(3);
-  $pin-spot(2);
-}
-
-.pin.pin-5 {
-  $pin-row(3);
-  $pin-spot(4);
-}
-
-.pin.pin-6 {
-  $pin-row(3);
-  $pin-spot(6);
-}
-
-.pin.pin-7 {
-  $pin-row(4);
-  $pin-spot(1);
-}
-
-.pin.pin-8 {
-  $pin-row(4);
-  $pin-spot(3);
-}
-
-.pin.pin-9 {
-  $pin-row(4);
-  $pin-spot(5);
-}
-
-.pin.pin-10 {
-  $pin-row(4);
-  $pin-spot(7);
 }

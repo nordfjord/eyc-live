@@ -1,0 +1,85 @@
+$pin-size = pxem(6);
+
+.score-container > .shot-number {
+  position: absolute;
+  top: pxem(3);
+  left: pxem(3);
+}
+
+.pins {
+  position: relative;
+  margin-top: pxem(6);
+  margin-left: pxem(3);
+  margin-right: pxem(3);
+}
+
+.pin {
+  background-color: $body-bg-color;
+  position: absolute;
+  width: pxem(6);
+  height: pxem(6);
+  border-radius: pxem(6);
+
+  &.isStanding {
+    background-color: #fff;
+  }
+}
+
+$pin-width = 100/7;
+
+$pin-row(n) {
+  top: pxem((n - 1) * 12);
+}
+$pin-spot(n) {
+  left: ((n - 1) * $pin-width)%;
+}
+
+.pin.pin-1 {
+  $pin-row(1);
+  $pin-spot(4);
+}
+
+.pin.pin-2 {
+  $pin-row(2);
+  $pin-spot(3);
+}
+
+.pin.pin-3 {
+  $pin-row(2);
+  $pin-spot(5);
+}
+
+.pin.pin-4 {
+  $pin-row(3);
+  $pin-spot(2);
+}
+
+.pin.pin-5 {
+  $pin-row(3);
+  $pin-spot(4);
+}
+
+.pin.pin-6 {
+  $pin-row(3);
+  $pin-spot(6);
+}
+
+.pin.pin-7 {
+  $pin-row(4);
+  $pin-spot(1);
+}
+
+.pin.pin-8 {
+  $pin-row(4);
+  $pin-spot(3);
+}
+
+.pin.pin-9 {
+  $pin-row(4);
+  $pin-spot(5);
+}
+
+.pin.pin-10 {
+  $pin-row(4);
+  $pin-spot(7);
+}
