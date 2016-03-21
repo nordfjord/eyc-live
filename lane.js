@@ -45,6 +45,14 @@ lane_component.controller = function (lane_number) {
 
   ctrl.changed = true;
 
+  ctrl.getTotalScore = function(){
+    return range10.map(d => {
+      return ctrl.players().reduce((p,v)=>{
+        return p + (+v['frameScore' + d]);
+      }, 0);
+    });
+  };
+
   ctrl.addPlayers = function (players) {
     players.forEach((p, i) => {
       p.name = window.decodeURIComponent(p.name).replace(/\+/g, ' ');
@@ -80,7 +88,7 @@ lane_component.view = function (ctrl) {
   if (settings.playerName()) {
     let name = formatPlayerName(settings.playerName());
     let hasPlayer = players.some((p, i)=> {
-      if (p.player.name.toLowerCase().indexOf(name.toLowerCase()) !== -1) {
+      if (p.name.toLowerCase().indexOf(name.toLowerCase()) !== -1) {
           idx = i;
           return true;
       }
@@ -99,7 +107,15 @@ lane_component.view = function (ctrl) {
   ctrl.changed = false;
   return m('.lane-container', [
     m('.lane-name', ctrl.lane_number),
-    players.map((p,i) => game_component.view({player: p, frames: ctrl.frames()[i]}, ()=> ctrl.changed = true))
+    players.map((p,i) => game_component.view({player: p, frames: ctrl.frames()[i]}, ()=> ctrl.changed = true)),
+    players.length ? [
+      // m('.lane-name', 'Total'),
+      m('ul.lane-row.clearfix', [
+        ctrl.getTotalScore().map((d,i) => m(`li.score${i === 9 ? '.tenth-frame' : ''}`, [
+          m('.frame-number-container', d)
+        ]))
+      ])
+    ] : null
   ]);
 };
 
