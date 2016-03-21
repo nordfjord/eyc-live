@@ -50,12 +50,19 @@ function score(frame, player, onchange){
 
   const idx = number - 1;
 
+  var squareNumbers = [(idx * 2) + 1, (idx * 2) + 2];
+  if (number === 10) {
+    squareNumbers.push(21);
+  }
+  var splits = squareNumbers.map(d => player.splitsOrderedBySquareNumber[d - 1]);
+  var scores = squareNumbers.map(d => player['squareScore' + d]);
+  console.log(scores);
   return m('li.score', frameOptions, [
     m('.frame-number-container', number),
     m('.score-container', frameOptions, [
-      m('.throw-score', player['squareScore' + ((idx*2) + 1)]),
-      m('.throw-score', player['squareScore' + ((idx*2) + 2)]),
-      number === 10 ? m('.throw-score', player.squareScore21) : null,
+      scores.map((d, i)=>
+        m(`.throw-score${splits[i] ? '.split' : ''}`, d)
+      ),
       m('.frame-score', player['frameScore' + number])
     ])
   ]);
