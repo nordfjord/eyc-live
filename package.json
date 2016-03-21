@@ -5,7 +5,9 @@
   "main": "index.js",
   "dependencies": {
     "bootstrap": "^3.3.6",
-    "mithril": "^0.2.3"
+    "forever": "^0.15.1",
+    "mithril": "^0.2.3",
+    "request": "^2.69.0"
   },
   "devDependencies": {
     "autoprefixer": "^6.3.3",
@@ -14,6 +16,7 @@
     "browser-sync": "^2.11.1",
     "browserify": "^13.0.0",
     "mithril-objectify": "^1.2.4",
+    "nodemon": "^1.9.1",
     "postcss-cli": "^2.5.1",
     "stylus": "^0.54.2",
     "uglifyjs": "^2.4.10",
