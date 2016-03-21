@@ -15,7 +15,7 @@ function formatDate(d) {
   return `${year}/${month}/${date} ${hours}:${minutes}:${seconds}`;
 }
 
-function getLane(lane_number) {
+function getLane(lane_number, request = m.prop()) {
   let endDate = new Date();
 
   if ((localStorage || {}).dev) {
@@ -23,6 +23,14 @@ function getLane(lane_number) {
   }
   const startDate = new Date(+endDate - (SCORE_TIMEOUT_MINUTES * 6e4));
 
+  if (localStorage && localStorage.dev) {
+    return m.request({
+      method: 'GET',
+      background: true,
+      config: request,
+      url: 'test.json'
+    });
+  }
   return m.request({
     method: 'GET',
     url: `${ROOT}/venue/${VENUE_ID}/lane/${lane_number}`,
@@ -30,7 +38,8 @@ function getLane(lane_number) {
       from: formatDate(startDate),
       to: formatDate(endDate)
     },
-    background: true
+    background: true,
+    config: request
   });
 }
 

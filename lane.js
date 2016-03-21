@@ -45,10 +45,23 @@ lane_component.controller = function (lane_number) {
 
   ctrl.changed = true;
 
+  function getFrameScore(d) {
+    return ctrl.players().map(p => +p['frameScore' + d]);
+  }
+
   ctrl.getTotalScore = function(){
-    return range10.map(d => {
-      return ctrl.players().reduce((p,v)=>{
-        return p + (+v['frameScore' + d]);
+    let frames = ctrl.players().map(p => {
+      let lastFrameScore = 0;
+      return range10.map(d => {
+        let score = +p['frameScore' + d];
+        if (score) lastFrameScore = score;
+        return score || lastFrameScore;
+      });
+    });
+
+    return range10.map((d, i) => {
+      return frames.reduce((p,v)=> {
+        return p + v[i];
       }, 0);
     });
   };
