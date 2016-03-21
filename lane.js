@@ -6,6 +6,13 @@ import settings from './settings';
 
 const range10 = [1, 2, 3, 4, 5, 6, 7 ,8, 9, 10];
 
+function createFrames(){
+  return range10.map(d => ({
+    frame: d,
+    state: 'score'
+  }));
+}
+
 const lane_component = {};
 
 function formatPlayerName(name){
@@ -33,20 +40,17 @@ lane_component.controller = function (lane_number) {
   const ctrl = {};
 
   ctrl.players = m.prop([]);
+  ctrl.frames = m.prop([]);
   ctrl.lane_number = lane_number;
 
   ctrl.changed = true;
 
   ctrl.addPlayers = function (players) {
-    players.forEach(p => p.name = window.decodeURIComponent(p.name).replace(/\+/g, ' '));
-    players = players.map(p => {
-      return {
-        player: p,
-        frames: range10.map(d => ({
-          frame: d,
-          state: 'active'
-        }))
-      };
+    players.forEach((p, i) => {
+      p.name = window.decodeURIComponent(p.name).replace(/\+/g, ' ');
+      if (!ctrl.frames()[i]) {
+        ctrl.frames()[i] = createFrames();
+      }
     });
     ctrl.changed = true;
     return ctrl.players(players);
@@ -95,7 +99,7 @@ lane_component.view = function (ctrl) {
   ctrl.changed = false;
   return m('.lane-container', [
     m('.lane-name', ctrl.lane_number),
-    players.map(p => game_component.view(p, ()=> ctrl.changed = true))
+    players.map((p,i) => game_component.view({player: p, frames: ctrl.frames()[i]}, ()=> ctrl.changed = true))
   ]);
 };
 
