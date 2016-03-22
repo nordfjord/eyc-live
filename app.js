@@ -62,8 +62,8 @@ main_component.view = function(ctrl){
           })
         ]),
         m('span.pull-right', [
-          'Uses the ',
-          m('a[href=https://xbowling.com]', 'XBowling'),
+          'Powered by ',
+          m('a[href=https://xbowling.com]', 'MSCN XBowling'),
           ' API'
         ])
       ])
