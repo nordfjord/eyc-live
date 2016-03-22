@@ -32,6 +32,10 @@ function getLane(i) {
 }
 
 var initialize = function(){
+  if (new Date().getUTCHours() < 9) {
+    console.log('canceling lane refresh, since it\'s not 9 already');
+    return;
+  }
   console.log('refreshing lanes at', formatDate(new Date()));
   for (var i = 1; i <= 22; ++i) {
     getLane(i);
