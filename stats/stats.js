@@ -182,6 +182,9 @@ function initGameChart() {
       renderTo: document.getElementById('playerGameChart'),
       type: 'line'
     },
+    title: {
+      text: 'Game Averages'
+    },
     xAxis: {
       categories: _all.map(d => d.key),
       title: {
