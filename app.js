@@ -34,6 +34,11 @@ main_component.controller = function(){
 
 main_component.view = function(ctrl){
   return m('.bowling-container.container-fluid', [
+    m('a[href=/stats].stats-link', [
+      m('i.fa.fa-bar-chart-o'),
+      '\u00a0',
+      'See Statistics from EYC'
+    ]),
     m('h1.page-title', 'EYC 2016 Live Scoring'),
     m('h2.sub-title', 'Scores are refreshed every 30 seconds'),
     m('.settings', m('a[href=#]', {
