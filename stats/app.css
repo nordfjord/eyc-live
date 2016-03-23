@@ -1,3 +1,11 @@
-.dc-chart g.row > text {
-  fill: #000;
+#playerGameChart {
+  margin-bottom: 40px;
+}
+
+#genderChart {
+  margin-bottom: 40px;
+}
+
+.highcharts-series > rect {
+  stroke: none;
 }

@@ -2,6 +2,8 @@ import d3 from 'd3';
 
 import crossfilter from 'crossfilter2';
 
+import './highcharts_theme';
+
 const dsv = d3.dsv(';', 'text/csv');
 
 const params = {};
@@ -9,7 +11,6 @@ const params = {};
 const games = ['G1', 'G2', 'G3', 'G4', 'G5', 'G6'];
 
 const avgDescending = (a,b)=> d3.descending(a.value.avg, b.value.avg);
-
 
 function avgAll(all) {
   return all.filter(d => d.value.avg !== 0).sort(avgDescending);
@@ -164,7 +165,7 @@ function initPlayerChart() {
 }
 
 function getColor(chart, d) {
-  return !chart.hasFilter() ? undefined : (chart.hasFilter(d.key) ? undefined : '#CCC');
+  return !chart.hasFilter() ? undefined : (chart.hasFilter(d.key) ? undefined : '#333');
 }
 
 function updatePlayerChart() {
@@ -184,6 +185,9 @@ function initGameChart() {
     },
     title: {
       text: 'Game Averages'
+    },
+    legend: {
+      enabled: false
     },
     xAxis: {
       categories: _all.map(d => d.key),
