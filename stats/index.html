@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>EYC 2016 Statistics</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="description" content="See statistics from EYC 2016 Reykjavík">
+    <meta name="twitter:card" value="summary">
+    <meta name="twitter:creator" value="@enordfjord">
+
+    <meta property="og:title" content="EYC 2016 Statistics">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://eyc2016.jarvis.is/stats">
+    <meta property="og:image" content="http://s3.amazonaws.com/vnn-aws-sites/3222/files/2015/12/e02bacb8e87d4c8c-bowling_quilles.jpg">
+    <meta property="og:description" content="See statistics from EYC 2016 Reykjavík">
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css" media="screen" title="no title" charset="utf-8">
+    <link rel="shortcut icon" href="/jarvis-colour.png">
+
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-51442155-2', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+
+  </head>
+  <body>
+    <div class="container-fluid">
+
+    <h1>EYC 2016 Statistics</h1>
+    <div class="row">
+      <div class="col-md-4 col-lg-4 col-sm-6">
+        <div id="playerChart"></div>
+      </div>
+    <div class="col-md-8 col-lg-8 col-sm-6">
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          <div id="playerGameChart"></div>
+
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+          <div id="countryChart"></div>
+        </div>
+
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+          <div id="genderChart"></div>
+          <div id="disciplineChart"></div>
+        </div>
+      </div>
+    </div>
+    </div>
+    </div>
+    <script src="highcharts.js"></script>
+    <script src="app.min.js"></script>
+  </body>
+</html>
