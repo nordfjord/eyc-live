@@ -6,8 +6,6 @@ import './highcharts_theme';
 
 const dsv = d3.dsv(';', 'text/csv');
 
-const params = {};
-
 const games = ['G1', 'G2', 'G3', 'G4', 'G5', 'G6'];
 
 const avgDescending = (a,b)=> d3.descending(a.value.avg, b.value.avg);
@@ -15,13 +13,6 @@ const avgDescending = (a,b)=> d3.descending(a.value.avg, b.value.avg);
 function avgAll(all) {
   return all.filter(d => d.value.avg !== 0).sort(avgDescending);
 }
-
-window.location.search.substr(1).split('&').forEach(val => {
-  let values = val.split('=').map(window.decodeURIComponent);
-  params[values[0]] = values[1];
-});
-
-console.log('params', params);
 
 let cf,
     playerDim,
@@ -342,3 +333,11 @@ function init(data){
 }
 
 dsv('/playerstats.csv', init);
+
+window.onload = function(){
+  console.log('onload');
+  document.getElementById('scrollTop').addEventListener('click', (ev)=>{
+    ev.preventDefault();
+    TweenLite.to(window, 0.75, {scrollTo: {y: 0}, ease: Power2.easeInOut});
+  });
+};

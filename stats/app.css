@@ -6,6 +6,10 @@
   margin-bottom: 40px;
 }
 
+#playerChart {
+  margin-bottom: 40px;
+}
+
 .highcharts-series > rect {
   stroke: none;
 }
