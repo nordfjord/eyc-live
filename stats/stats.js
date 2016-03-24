@@ -34,6 +34,7 @@ let cf,
     minGrp,
     maxGrp,
     avgGrp,
+    totalGrp,
     playerChart,
     countryChart,
     disciplineChart,
@@ -282,7 +283,7 @@ function updateDisciplineChart() {
   disciplineChart.series[0].setData(_all.map(d => ({y: d.value.avg, color: getColor(disciplineChart, d)})));
 }
 
-const format = d3.format(',.0f');
+const format = d3.format('.0f');
 
 function numberContainer(accessor, selection, description) {
   let _value = accessor();
@@ -316,6 +317,7 @@ function updateNumbers() {
   numberContainer(()=> minGrp.all()[0].value.min, '#lowGame', 'Low');
   numberContainer(()=> maxGrp.all()[0].value.max, '#highGame', 'High');
   numberContainer(()=> avgGrp.all()[0].value.avg, '#avgGame', 'Average');
+  numberContainer(()=> totalGrp.all()[0].value.sum, '#totalScore', 'Total');
 }
 
 function updateAll() {
@@ -340,8 +342,30 @@ function init(data){
 
   maxGrp = reductio().max(d => d3.max(games.map(g => +d[g] || 0).filter(d => d !== 0)))(allDim.group());
   minGrp = reductio().min(d => d3.min(games.map(g => +d[g] || 0).filter(d => d !== 0)))(allDim.group());
-  avgGrp = reductio().avg(d => d3.mean(games.map(g => +d[g] || 0).filter(d => d !== 0)))(allDim.group());
+  // avgGrp = reductio().count(true).avg(true).sum(d => d3.sum(games.map(g => +d[g] || 0).filter(d => d !== 0)))(allDim.group());
+  totalGrp = reductio().sum(d => d3.sum(games.map(g => +d[g] || 0)))(allDim.group());
 
+  avgGrp = allDim.group().reduce(
+    (p,v)=> {
+      let _games = games.map(g => +v[g] || 0).filter(d => d !== 0);
+      p.count += _games.length;
+      p.sum += d3.sum(_games);
+      p.avg = (p.sum / p.count) || 0;
+      return p;
+    },
+    (p,v)=> {
+      let _games = games.map(g => +v[g] || 0).filter(d => d !== 0);
+      p.count -= _games.length;
+      p.sum -= d3.sum(_games);
+      p.avg = (p.sum / p.count) || 0;
+      return p;
+    },
+    ()=> ({
+      count: 0,
+      sum: 0,
+      avg: 0
+    })
+  );
 
   allGrp = allDim.group().reduce(
     (p,v,n)=> {
