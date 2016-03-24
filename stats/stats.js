@@ -23,11 +23,13 @@ let cf,
     playerDim,
     countryDim,
     disciplineDim,
+    handDim,
     genderDim,
     allDim,
     playerGrp,
     countryGrp,
     disciplineGrp,
+    handGrp,
     genderGrp,
     allGrp,
     gameGrp,
@@ -39,6 +41,7 @@ let cf,
     countryChart,
     disciplineChart,
     genderChart,
+    handChart,
     gameChart
 ;
 
@@ -293,6 +296,18 @@ function updateDisciplineChart() {
   updateAverageChart(disciplineChart, disciplineGrp);
 }
 
+function initHandChart() {
+  handChart = initAverageChart(handDim, handGrp, {
+    renderTo: document.getElementById('handChart'),
+    title: 'Hand Averages'
+  });
+}
+
+function updateHandChart() {
+  if (!handChart) return initHandChart();
+  updateAverageChart(handChart, handGrp);
+}
+
 const format = d3.format('.0f');
 
 function numberContainer(accessor, selection, description) {
@@ -336,6 +351,7 @@ function updateAll() {
   updateCountryChart();
   updateGenderChart();
   updateDisciplineChart();
+  updateHandChart();
   updateNumbers();
 }
 
@@ -359,6 +375,7 @@ function init(data){
   countryDim = cf.dimension(d => d.Federation);
   genderDim = cf.dimension(d => d.Gender);
   disciplineDim = cf.dimension(d => d.Discipline);
+  handDim = cf.dimension(d => d.Hand);
   allDim = cf.dimension(d => 'all');
 
   maxGrp = reductio()
@@ -452,6 +469,7 @@ function init(data){
   genderGrp = scoreReducer(genderDim.group());
   countryGrp = scoreReducer(countryDim.group());
   disciplineGrp = scoreReducer(disciplineDim.group());
+  handGrp = scoreReducer(handDim.group());
 
   updateAll();
 

@@ -1,12 +1,4 @@
-#playerGameChart {
-  margin-bottom: 40px;
-}
-
-#genderChart {
-  margin-bottom: 40px;
-}
-
-#playerChart {
+.chart {
   margin-bottom: 40px;
 }
 
