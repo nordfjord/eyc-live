@@ -349,6 +349,9 @@ function init(data){
       d.G4 = d.G1;
       d.G5 = d.G2;
       d.G6 = d.G3;
+      d.G1 = '0';
+      d.G2 = '0';
+      d.G3 = '0';
     }
   });
 
