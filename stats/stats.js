@@ -344,6 +344,14 @@ function init(data){
   cf = crossfilter(data);
   cf.data = data;
 
+  data.forEach(d => {
+    if (d.Squad === 'Girls Team - Block 2' || d.Squad === 'Boys Team - Block 2') {
+      d.G4 = d.G1;
+      d.G5 = d.G2;
+      d.G6 = d.G3;
+    }
+  });
+
   playerDim = cf.dimension(d => d.Playername);
   countryDim = cf.dimension(d => d.Federation);
   genderDim = cf.dimension(d => d.Gender);
