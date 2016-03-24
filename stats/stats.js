@@ -25,12 +25,14 @@ let cf,
     disciplineDim,
     handDim,
     genderDim,
+    genderDim2,
     allDim,
     playerGrp,
     countryGrp,
     disciplineGrp,
     handGrp,
     genderGrp,
+    genderGameGrp,
     allGrp,
     gameGrp,
     minGrp,
@@ -199,7 +201,8 @@ function updatePlayerChart() {
 }
 
 function initGameChart() {
-  let _all = gameGrp.all();
+  let _all = genderGameGrp.all();
+  let _categories = Object.keys(_all[0].value);
   gameChart = new Highcharts.Chart({
     chart: {
       renderTo: document.getElementById('playerGameChart'),
@@ -208,11 +211,8 @@ function initGameChart() {
     title: {
       text: 'Game Averages'
     },
-    legend: {
-      enabled: false
-    },
     xAxis: {
-      categories: _all.map(d => d.key),
+      categories: _categories,
       title: {
         text: null
       }
@@ -226,11 +226,13 @@ function initGameChart() {
         overflow: 'justify'
       }
     },
-    series: [{
-      name: 'Average',
-      data: allAvg.map(d => d.value.avg),
-      color: Highcharts.theme.colors[1]
-    }]
+    series: _all.map((d,i) => {
+      return {
+        name: d.key + ' Average',
+        data: Object.keys(d.value).map(k => d.value[k].avg),
+        color: Highcharts.theme.colors[i+1]
+      };
+    })
   });
 }
 
@@ -244,14 +246,14 @@ function updateGameChart() {
   gameChart.xAxis[0].setCategories(scaleRange, false);
   let data = _all.map(d => d.value.avg);
   if (data.join('') === allAvg.map(d => d.value.avg).join('')) {
-    gameChart.series[1].remove(true);
+    gameChart.series[2].remove(true);
     return;
   }
-  if (gameChart.series[1]) {
-    gameChart.series[1].setData(data);
+  if (gameChart.series[2]) {
+    gameChart.series[2].setData(data);
   } else {
     gameChart.addSeries({
-      name: 'Player',
+      name: 'Filter Average',
       data: data,
       color: Highcharts.theme.colors[0]
     });
@@ -356,67 +358,8 @@ function updateAll() {
 }
 
 
-function init(data){
-  cf = crossfilter(data);
-  cf.data = data;
-
-  data.forEach(d => {
-    if (d.Squad === 'Girls Team - Block 2' || d.Squad === 'Boys Team - Block 2') {
-      d.G4 = d.G1;
-      d.G5 = d.G2;
-      d.G6 = d.G3;
-      d.G1 = '0';
-      d.G2 = '0';
-      d.G3 = '0';
-    }
-  });
-
-  playerDim = cf.dimension(d => d.Playername);
-  countryDim = cf.dimension(d => d.Federation);
-  genderDim = cf.dimension(d => d.Gender);
-  disciplineDim = cf.dimension(d => d.Discipline);
-  handDim = cf.dimension(d => d.Hand);
-  allDim = cf.dimension(d => 'all');
-
-  maxGrp = reductio()
-  .max(d =>
-    d3.max(games.map(g => +d[g] || 0).filter(d => d !== 0))
-  )(allDim.group());
-  minGrp = reductio()
-  .min(d =>
-    d3.min(games.map(g => +d[g] || 0).filter(d => d !== 0))
-  )(allDim.group());
-  totalGrp = reductio().sum(d =>
-    d3.sum(games.map(g => +d[g] || 0))
-  )(allDim.group());
-
-  avgGrp = allDim.group().reduce(
-    (p,v)=> {
-      let _games = games
-        .map(g => +v[g] || 0)
-        .filter(d => d !== 0);
-      p.count += _games.length;
-      p.sum += d3.sum(_games);
-      p.avg = (p.sum / p.count) || 0;
-      return p;
-    },
-    (p,v)=> {
-      let _games = games
-        .map(g => +v[g] || 0)
-        .filter(d => d !== 0);
-      p.count -= _games.length;
-      p.sum -= d3.sum(_games);
-      p.avg = (p.sum / p.count) || 0;
-      return p;
-    },
-    ()=> ({
-      count: 0,
-      sum: 0,
-      avg: 0
-    })
-  );
-
-  allGrp = allDim.group().reduce(
+function gameReducer(group){
+  group.reduce(
     (p,v,n)=> {
       let disc = v.Discipline;
       games.forEach(g => {
@@ -448,6 +391,77 @@ function init(data){
     },
     ()=> ({})
   );
+
+  return group;
+}
+
+function init(data){
+  cf = crossfilter(data);
+  cf.data = data;
+
+  data.forEach(d => {
+    if (d.Block2 === '-1') {
+      d.G4 = d.G1;
+      d.G5 = d.G2;
+      d.G6 = d.G3;
+      d.G1 = '0';
+      d.G2 = '0';
+      d.G3 = '0';
+    }
+  });
+
+  playerDim = cf.dimension(d => d.Playername);
+  countryDim = cf.dimension(d => d.Federation);
+  genderDim = cf.dimension(d => d.Gender);
+  disciplineDim = cf.dimension(d => d.Discipline);
+  handDim = cf.dimension(d => d.Hand);
+  allDim = cf.dimension(d => 'all');
+
+  genderDim2 = cf.dimension(d => d.Gender);
+
+  maxGrp = reductio()
+  .max(d =>
+    d3.max(games.map(g => +d[g] || 0).filter(d => d !== 0))
+  )(allDim.group());
+  minGrp = reductio()
+  .min(d =>
+    d3.min(games.map(g => +d[g] || 0).filter(d => d !== 0))
+  )(allDim.group());
+  totalGrp = reductio().sum(d =>
+    d3.sum(games.map(g => +d[g] || 0))
+  )(allDim.group());
+
+  genderGameGrp = gameReducer(genderDim2.group());
+
+  avgGrp = allDim.group().reduce(
+    (p,v)=> {
+      let _games = games
+        .map(g => +v[g] || 0)
+        .filter(d => d !== 0);
+      p.count += _games.length;
+      p.sum += d3.sum(_games);
+      p.avg = (p.sum / p.count) || 0;
+      return p;
+    },
+    (p,v)=> {
+      let _games = games
+        .map(g => +v[g] || 0)
+        .filter(d => d !== 0);
+      p.count -= _games.length;
+      p.sum -= d3.sum(_games);
+      p.avg = (p.sum / p.count) || 0;
+      return p;
+    },
+    ()=> ({
+      count: 0,
+      sum: 0,
+      avg: 0
+    })
+  );
+
+  allGrp = gameReducer(allDim.group());
+
+
 
   gameGrp = {
     all: function(){
