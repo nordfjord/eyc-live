@@ -93,14 +93,20 @@ function initFilters(chart, dim) {
     } else {
       _filters.push(key);
     }
-    if (_filters.length === 1) {
-      dim.filterExact(key);
-    } else if (_filters.length) {
-      dim.filterFunction(function(d){
-        return ~_filters.indexOf(d);
-      });
-    } else {
+    if (_filters.length === 0) {
       dim.filter(null);
+    } else if (_filters.length === 1) {
+      dim.filterExact(_filters[0]);
+    } else {
+      dim.filterFunction(function(d){
+        for (let i = 0; i < _filters.length; ++i) {
+          let filter = _filters[i];
+          if (filter <= d && filter >= d) {
+            return true;
+          }
+        }
+        return false;
+      });
     }
   };
 }
@@ -158,6 +164,17 @@ function initAverageChart(dimension, group, options) {
   return chart;
 }
 
+function updateAverageChart(chart, group, redraw = true) {
+  let _all = avgAll(group.all());
+  let _keys = _all.map(d => d.key);
+  let _values = _all.map(d => ({
+    y: d.value.avg,
+    color: getColor(chart, d)
+  }));
+  chart.xAxis[0].setCategories(_keys, false);
+  chart.series[0].setData(_values, redraw);
+}
+
 function initPlayerChart() {
   let _playerAll = avgAll(playerGrp.all());
   playerChart = initAverageChart(playerDim, playerGrp, {
@@ -174,8 +191,7 @@ function getColor(chart, d) {
 function updatePlayerChart() {
   if (!playerChart) return initPlayerChart();
   let _playerAll = avgAll(playerGrp.all());
-  playerChart.xAxis[0].setCategories(_playerAll.map(d => d.key), false);
-  playerChart.series[0].setData(_playerAll.map(d => ({y: d.value.avg, color: getColor(playerChart, d)})), false);
+  updateAverageChart(playerChart, playerGrp, false);
   playerChart.setSize(playerChart.chartWidth, 19 * _playerAll.length + (playerChart.marginBottom * 2));
 }
 
@@ -250,9 +266,7 @@ function initCountryChart() {
 
 function updateCountryChart(){
   if (!countryChart) return initCountryChart();
-  let _all = avgAll(countryGrp.all());
-  countryChart.xAxis[0].setCategories(_all.map(d => d.key), false);
-  countryChart.series[0].setData(_all.map(d => ({y: d.value.avg, color: getColor(countryChart, d)})));
+  updateAverageChart(countryChart, countryGrp);
 }
 
 function initGenderChart() {
@@ -264,9 +278,7 @@ function initGenderChart() {
 
 function updateGenderChart() {
   if(!genderChart) return initGenderChart();
-  let _all = avgAll(genderGrp.all());
-  genderChart.xAxis[0].setCategories(_all.map(d => d.key), false);
-  genderChart.series[0].setData(_all.map(d => ({y: d.value.avg, color: getColor(genderChart, d)})));
+  updateAverageChart(genderChart, genderGrp);
 }
 
 function initDisciplineChart() {
@@ -278,9 +290,7 @@ function initDisciplineChart() {
 
 function updateDisciplineChart() {
   if (!disciplineChart) return initDisciplineChart();
-  let _all = avgAll(disciplineGrp.all());
-  disciplineChart.xAxis[0].setCategories(_all.map(d => d.key), false);
-  disciplineChart.series[0].setData(_all.map(d => ({y: d.value.avg, color: getColor(disciplineChart, d)})));
+  updateAverageChart(disciplineChart, disciplineGrp);
 }
 
 const format = d3.format('.0f');
@@ -340,21 +350,32 @@ function init(data){
   disciplineDim = cf.dimension(d => d.Discipline);
   allDim = cf.dimension(d => 'all');
 
-  maxGrp = reductio().max(d => d3.max(games.map(g => +d[g] || 0).filter(d => d !== 0)))(allDim.group());
-  minGrp = reductio().min(d => d3.min(games.map(g => +d[g] || 0).filter(d => d !== 0)))(allDim.group());
-  // avgGrp = reductio().count(true).avg(true).sum(d => d3.sum(games.map(g => +d[g] || 0).filter(d => d !== 0)))(allDim.group());
-  totalGrp = reductio().sum(d => d3.sum(games.map(g => +d[g] || 0)))(allDim.group());
+  maxGrp = reductio()
+  .max(d =>
+    d3.max(games.map(g => +d[g] || 0).filter(d => d !== 0))
+  )(allDim.group());
+  minGrp = reductio()
+  .min(d =>
+    d3.min(games.map(g => +d[g] || 0).filter(d => d !== 0))
+  )(allDim.group());
+  totalGrp = reductio().sum(d =>
+    d3.sum(games.map(g => +d[g] || 0))
+  )(allDim.group());
 
   avgGrp = allDim.group().reduce(
     (p,v)=> {
-      let _games = games.map(g => +v[g] || 0).filter(d => d !== 0);
+      let _games = games
+        .map(g => +v[g] || 0)
+        .filter(d => d !== 0);
       p.count += _games.length;
       p.sum += d3.sum(_games);
       p.avg = (p.sum / p.count) || 0;
       return p;
     },
     (p,v)=> {
-      let _games = games.map(g => +v[g] || 0).filter(d => d !== 0);
+      let _games = games
+        .map(g => +v[g] || 0)
+        .filter(d => d !== 0);
       p.count -= _games.length;
       p.sum -= d3.sum(_games);
       p.avg = (p.sum / p.count) || 0;
@@ -413,7 +434,8 @@ function init(data){
     }
   };
 
-  allAvg = gameGrp.all().map(d => ({key: d.key, value: {avg: d.value.avg}}));
+  allAvg = gameGrp.all()
+    .map(d => ({key: d.key, value: {avg: d.value.avg}}));
 
   playerGrp = scoreReducer(playerDim.group());
   genderGrp = scoreReducer(genderDim.group());
@@ -429,8 +451,9 @@ dsv('/playerstats.csv', init);
 
 window.onload = function(){
   console.log('onload');
-  document.getElementById('scrollTop').addEventListener('click', (ev)=>{
-    ev.preventDefault();
-    TweenLite.to(window, 0.75, {scrollTo: {y: 0}, ease: Power2.easeInOut});
-  });
+  document.getElementById('scrollTop')
+    .addEventListener('click', (ev)=>{
+      ev.preventDefault();
+      TweenLite.to(window, 0.75, {scrollTo: {y: 0}, ease: Power2.easeInOut});
+    });
 };
