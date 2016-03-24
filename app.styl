@@ -301,3 +301,30 @@ body {
     font-size: 2em;
   }
 }
+
+.number-container {
+  background: $well-bg;
+  color: $text-color;
+
+  height: 100px;
+  width: 100%;
+  text-align: center;
+  line-height: 100px;
+  margin-bottom: 40px;
+  position: relative;
+
+  > .number {
+    font-size: 2.5em;
+    display: inline-block;
+  }
+
+  > .description {
+    display: inline-block;
+    position: absolute;
+    bottom: 5px;
+    line-height: 1em;
+    left: 50%;
+    transform: translateX(-50%);
+
+  }
+}

@@ -4,6 +4,8 @@ import crossfilter from 'crossfilter2';
 
 import './highcharts_theme';
 
+import reductio from 'reductio';
+
 const dsv = d3.dsv(';', 'text/csv');
 
 const games = ['G1', 'G2', 'G3', 'G4', 'G5', 'G6'];
@@ -14,8 +16,10 @@ function avgAll(all) {
   return all.filter(d => d.value.avg !== 0).sort(avgDescending);
 }
 
+
 let cf,
     allAvg,
+    allGames,
     playerDim,
     countryDim,
     disciplineDim,
@@ -27,6 +31,9 @@ let cf,
     genderGrp,
     allGrp,
     gameGrp,
+    minGrp,
+    maxGrp,
+    avgGrp,
     playerChart,
     countryChart,
     disciplineChart,
@@ -136,6 +143,9 @@ function initAverageChart(dimension, group, options) {
         overflow: 'justify'
       }
     },
+    legend: {
+      enabled: false
+    },
     series: [{
       name: 'Average',
       data: _all.map(d => d.value.avg)
@@ -197,7 +207,7 @@ function initGameChart() {
       }
     },
     series: [{
-      name: 'All',
+      name: 'Average',
       data: allAvg.map(d => d.value.avg),
       color: Highcharts.theme.colors[1]
     }]
@@ -272,23 +282,65 @@ function updateDisciplineChart() {
   disciplineChart.series[0].setData(_all.map(d => ({y: d.value.avg, color: getColor(disciplineChart, d)})));
 }
 
+const format = d3.format(',.0f');
+
+function numberContainer(accessor, selection, description) {
+  let _value = accessor();
+  let _el = d3.select(selection);
+
+  let _sel = _el.selectAll('.number').data([_value]);
+
+  _sel.enter()
+    .append('span')
+    .attr('class', 'number')
+    .text(0);
+
+  _sel.enter()
+    .append('span')
+    .attr('class', 'description')
+    .text(description);
+
+  _sel.exit().remove();
+
+  _el.selectAll('.number').transition().duration(375)
+    .tween('text', function(d){
+      const i = d3.interpolate(this.textContent, d);
+      return function(t) {
+        this.textContent = format(i(t));
+      };
+    });
+
+}
+
+function updateNumbers() {
+  numberContainer(()=> minGrp.all()[0].value.min, '#lowGame', 'Low');
+  numberContainer(()=> maxGrp.all()[0].value.max, '#highGame', 'High');
+  numberContainer(()=> avgGrp.all()[0].value.avg, '#avgGame', 'Average');
+}
+
 function updateAll() {
   updatePlayerChart();
   updateGameChart();
   updateCountryChart();
   updateGenderChart();
   updateDisciplineChart();
+  updateNumbers();
 }
 
 
 function init(data){
   cf = crossfilter(data);
+  cf.data = data;
 
   playerDim = cf.dimension(d => d.Playername);
   countryDim = cf.dimension(d => d.Federation);
   genderDim = cf.dimension(d => d.Gender);
   disciplineDim = cf.dimension(d => d.Discipline);
   allDim = cf.dimension(d => 'all');
+
+  maxGrp = reductio().max(d => d3.max(games.map(g => +d[g] || 0).filter(d => d !== 0)))(allDim.group());
+  minGrp = reductio().min(d => d3.min(games.map(g => +d[g] || 0).filter(d => d !== 0)))(allDim.group());
+  avgGrp = reductio().avg(d => d3.mean(games.map(g => +d[g] || 0).filter(d => d !== 0)))(allDim.group());
 
 
   allGrp = allDim.group().reduce(
