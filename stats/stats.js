@@ -15,6 +15,7 @@ function avgAll(all) {
 }
 
 let cf,
+    allAvg,
     playerDim,
     countryDim,
     disciplineDim,
@@ -197,7 +198,8 @@ function initGameChart() {
     },
     series: [{
       name: 'All',
-      data: _all.map(d => d.value.avg)
+      data: allAvg.map(d => d.value.avg),
+      color: Highcharts.theme.colors[1]
     }]
   });
 }
@@ -210,7 +212,20 @@ function updateGameChart() {
   });
   let _all = gameGrp.all();
   gameChart.xAxis[0].setCategories(scaleRange, false);
-  gameChart.series[0].setData(_all.map(d => d.value.avg));
+  let data = _all.map(d => d.value.avg);
+  if (data.join('') === allAvg.map(d => d.value.avg).join('')) {
+    gameChart.series[1].remove(true);
+    return;
+  }
+  if (gameChart.series[1]) {
+    gameChart.series[1].setData(data);
+  } else {
+    gameChart.addSeries({
+      name: 'Player',
+      data: data,
+      color: Highcharts.theme.colors[0]
+    });
+  }
 }
 
 function initCountryChart() {
@@ -277,7 +292,7 @@ function init(data){
 
 
   allGrp = allDim.group().reduce(
-    (p,v)=> {
+    (p,v,n)=> {
       let disc = v.Discipline;
       games.forEach(g => {
         let k = disc + ': ' + g;
@@ -309,7 +324,7 @@ function init(data){
     ()=> ({})
   );
 
-  window.gameGrp = gameGrp = {
+  gameGrp = {
     all: function(){
       let _all = allGrp.all()[0].value;
 
@@ -321,6 +336,8 @@ function init(data){
       });
     }
   };
+
+  allAvg = gameGrp.all().map(d => ({key: d.key, value: {avg: d.value.avg}}));
 
   playerGrp = scoreReducer(playerDim.group());
   genderGrp = scoreReducer(genderDim.group());
