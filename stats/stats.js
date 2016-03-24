@@ -458,7 +458,7 @@ function init(data){
 
 }
 
-dsv('/playerstats.csv', init);
+dsv('../playerstats.csv', init);
 
 window.onload = function(){
   console.log('onload');
