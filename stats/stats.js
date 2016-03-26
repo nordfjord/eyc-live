@@ -410,6 +410,10 @@ function init(data){
     }
   });
 
+  data.sort((a,b) => {
+    return d3.ascending(a.DisciplineOrder, b.DisciplineOrder);
+  });
+
   playerDim = cf.dimension(d => d.Playername);
   countryDim = cf.dimension(d => d.Federation);
   genderDim = cf.dimension(d => d.Gender);
