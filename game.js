@@ -56,7 +56,6 @@ function score(frame, player, onchange){
   }
   var splits = squareNumbers.map(d => player.splitsOrderedBySquareNumber[d - 1]);
   var scores = squareNumbers.map(d => player['squareScore' + d]);
-  console.log(scores);
   return m('li.score', frameOptions, [
     m('.frame-number-container', number),
     m('.score-container', frameOptions, [
