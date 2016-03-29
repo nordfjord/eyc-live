@@ -1,6 +1,6 @@
 import m from 'mithril';
 
-var ROOT = 'http://api.xbowling.com';
+var ROOT = 'https://api.xbowling.com';
 var SCORE_TIMEOUT_MINUTES = 90;
 var VENUE_ID = 5395;
 
