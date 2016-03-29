@@ -22,7 +22,7 @@ function createUrl(lane_number) {
   var startDate = new Date(+endDate - SCORE_TIMEOUT_MINUTES * 6e4);
   endDate = formatDate(endDate);
   startDate = formatDate(startDate);
-  return ROOT + '/venue/' + VENUE_ID + '/lane/' + lane_number + '?from=' + startDate + '&to=' + endDate;
+  return ROOT + '/venue/' + VENUE_ID + '/lane/' + lane_number + '?from=' + encodeURIComponent(startDate) + '&to=' + encodeURIComponent(endDate);
 }
 
 function getLane(lane_number) {
