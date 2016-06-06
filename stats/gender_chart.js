@@ -7,7 +7,7 @@ export default class GenderChart extends AverageChart {
 
     constructor() {
         super();
-        this.dimension = cf.dimension(d => d.Discipline);
+        this.dimension = cf.dimension(d => d.Gender);
         this.group = scoreReducer(this.dimension.group());
 
         this.options = {

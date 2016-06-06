@@ -12,7 +12,7 @@ export default class HandChart extends AverageChart {
 
         this.options = {
           renderTo: document.getElementById('handChart'),
-          title: 'Gender Averages'
+          title: 'Hand Averages'
         };
     }
 
