@@ -15,6 +15,7 @@ import DisciplineChart from './discipline_chart';
 import GenderChart from './gender_chart';
 import HandChart from './hand_chart';
 import NumberContainer from './number';
+import LanePairChart from './lane_pair_chart';
 
 import Table from './table';
 
@@ -31,6 +32,7 @@ function init(data){
     let disciplineChart = new DisciplineChart();
     let genderChart = new GenderChart();
     let handChart = new HandChart();
+    let lanePairChart = new LanePairChart();
     let table = new Table();
 
     new NumberContainer({

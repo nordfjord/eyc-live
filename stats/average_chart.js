@@ -2,10 +2,10 @@ import avgAll from './avgAll';
 
 import cr from './chart_registry';
 
+
 export default class AverageChart {
   constructor() {
     this.filters = [];
-
     cr.register(this);
   }
 
@@ -39,9 +39,12 @@ export default class AverageChart {
     }
   }
 
-  render() {
-    let _all = avgAll(this.group.all());
+  data() {
+    return avgAll(this.group.all());
+  }
 
+  render() {
+    let _all = this.data();
     if (!_all.length) return;
 
     let _this = this;
@@ -95,7 +98,7 @@ export default class AverageChart {
   redraw() {
     let shouldRedraw = !this._redraw;
     if (!this.chart) return this.render();
-    let _all = avgAll(this.group.all());
+    let _all = this.data();
     let _keys = _all.map(d => d.key);
     let _values = _all.map(d => ({
       y: d.value.avg,
