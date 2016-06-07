@@ -1,26 +1,8 @@
 export default function scoreReducer(group) {
   group.reduce(
-    (p,v)=> {
-      if (+v.Score) {
-        ++p.count;
-        p.sum += +v.Score;
-        p.avg = p.sum / p.count || 0;
-      }
-      return p;
-    },
-    (p,v)=> {
-      if (+v.Score) {
-        --p.count;
-        p.sum -= +v.Score;
-        p.avg = p.sum / p.count || 0;
-      }
-      return p;
-    },
-    (p,v)=> ({
-      count: 0,
-      sum: 0,
-      avg: 0
-    })
+    reducers.add,
+    reducers.remove,
+    reducers.initial
   );
   return {
     all: function(){
@@ -28,3 +10,36 @@ export default function scoreReducer(group) {
     }
   };
 }
+
+export const reducers = {
+  add: (p, v)=> {
+    if (+v.Score) {
+      ++p.count;
+      p.sum += +v.Score;
+      p.avg = p.sum / p.count || 0;
+    }
+    return p;
+  },
+  remove: (p, v)=> {
+    if (+v.Score) {
+      --p.count;
+      p.sum -= +v.Score;
+      p.avg = p.sum / p.count || 0;
+    }
+    return p;
+  },
+  initial: (p)=> {
+    if (p) {
+      p.count = 0;
+      p.sum = 0;
+      p.avg = 0;
+      return p;
+    } else {
+      return {
+        count: 0,
+        sum: 0,
+        avg: 0
+      };
+    }
+  }
+};

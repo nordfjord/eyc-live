@@ -55,7 +55,7 @@ export default class AverageChart {
         height: this.options.height
       },
       plotOptions: {
-        bar: {
+        series: {
           cursor: 'pointer',
           point: {
             events: {
@@ -93,6 +93,10 @@ export default class AverageChart {
         data: _all.map(d => d.value.avg)
       }]
     });
+
+    if (this.postRender) {
+      this.postRender();
+    }
   }
 
   redraw() {
@@ -107,9 +111,10 @@ export default class AverageChart {
     this.chart.xAxis[0].setCategories(_keys, false);
     this.chart.series[0].setData(_values, shouldRedraw);
     if (this._redraw) this._redraw(_all);
+    if (this.postRedraw) this.postRedraw();
   }
 
   getColor(d) {
-    return !this.hasFilter() ? undefined : (this.hasFilter(d.key) ? undefined : '#333');
+    return !this.hasFilter() ? undefined : (this.hasFilter(d.key) ? undefined : '#333333');
   }
 }
