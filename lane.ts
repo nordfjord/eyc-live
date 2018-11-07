@@ -1,9 +1,9 @@
-import { Game as GameComponent } from "./game"
 import m from "mithril"
 import { merge, curry } from "ramda"
-import getLane, { Game } from "./api"
-
 import { endsOn, fromPromise } from "flyd"
+
+import { Game as GameComponent } from "./game"
+import getLane, { Game } from "./api"
 import { ReducerComponent, intervalStream } from "./util"
 
 interface LaneState {
