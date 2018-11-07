@@ -19838,7 +19838,7 @@ var Lane = (0, _util.ReducerComponent)({
   },
   didMount: function didMount(_a, dispatch) {
     var laneNumber = _a.laneNumber;
-    (0, _util.intervalStream)(6e4).pipe((0, _ramda.curry)(_flyd.endsOn)(dispatch)).chain(function () {
+    (0, _util.intervalStream)(6e4).pipe((0, _ramda.curry)(_flyd.endsOn)(dispatch.end)).chain(function () {
       return (0, _flyd.fromPromise)((0, _api.default)(laneNumber));
     }).map(function (players) {
       var totalScore = getTotalScore(players);
@@ -19886,63 +19886,333 @@ function getTotalScore(players) {
 
 var _default = Lane;
 exports.default = _default;
-},{"./game":"game.ts","mithril":"node_modules/mithril/mithril.js","ramda":"node_modules/ramda/es/index.js","./api":"api.ts","flyd":"node_modules/flyd/lib/index.js","./util":"util.ts"}],"app.ts":[function(require,module,exports) {
+},{"./game":"game.ts","mithril":"node_modules/mithril/mithril.js","ramda":"node_modules/ramda/es/index.js","./api":"api.ts","flyd":"node_modules/flyd/lib/index.js","./util":"util.ts"}],"node_modules/parcel/src/builtins/bundle-url.js":[function(require,module,exports) {
+var bundleURL = null;
+
+function getBundleURLCached() {
+  if (!bundleURL) {
+    bundleURL = getBundleURL();
+  }
+
+  return bundleURL;
+}
+
+function getBundleURL() {
+  // Attempt to find the URL of the current script and use that as the base URL
+  try {
+    throw new Error();
+  } catch (err) {
+    var matches = ('' + err.stack).match(/(https?|file|ftp):\/\/[^)\n]+/g);
+
+    if (matches) {
+      return getBaseURL(matches[0]);
+    }
+  }
+
+  return '/';
+}
+
+function getBaseURL(url) {
+  return ('' + url).replace(/^((?:https?|file|ftp):\/\/.+)\/[^/]+$/, '$1') + '/';
+}
+
+exports.getBundleURL = getBundleURLCached;
+exports.getBaseURL = getBaseURL;
+},{}],"node_modules/parcel/src/builtins/bundle-loader.js":[function(require,module,exports) {
+var getBundleURL = require('./bundle-url').getBundleURL;
+
+function loadBundlesLazy(bundles) {
+  if (!Array.isArray(bundles)) {
+    bundles = [bundles];
+  }
+
+  var id = bundles[bundles.length - 1];
+
+  try {
+    return Promise.resolve(require(id));
+  } catch (err) {
+    if (err.code === 'MODULE_NOT_FOUND') {
+      return new LazyPromise(function (resolve, reject) {
+        loadBundles(bundles.slice(0, -1)).then(function () {
+          return require(id);
+        }).then(resolve, reject);
+      });
+    }
+
+    throw err;
+  }
+}
+
+function loadBundles(bundles) {
+  return Promise.all(bundles.map(loadBundle));
+}
+
+var bundleLoaders = {};
+
+function registerBundleLoader(type, loader) {
+  bundleLoaders[type] = loader;
+}
+
+module.exports = exports = loadBundlesLazy;
+exports.load = loadBundles;
+exports.register = registerBundleLoader;
+var bundles = {};
+
+function loadBundle(bundle) {
+  var id;
+
+  if (Array.isArray(bundle)) {
+    id = bundle[1];
+    bundle = bundle[0];
+  }
+
+  if (bundles[bundle]) {
+    return bundles[bundle];
+  }
+
+  var type = (bundle.substring(bundle.lastIndexOf('.') + 1, bundle.length) || bundle).toLowerCase();
+  var bundleLoader = bundleLoaders[type];
+
+  if (bundleLoader) {
+    return bundles[bundle] = bundleLoader(getBundleURL() + bundle).then(function (resolved) {
+      if (resolved) {
+        module.bundle.register(id, resolved);
+      }
+
+      return resolved;
+    });
+  }
+}
+
+function LazyPromise(executor) {
+  this.executor = executor;
+  this.promise = null;
+}
+
+LazyPromise.prototype.then = function (onSuccess, onError) {
+  if (this.promise === null) this.promise = new Promise(this.executor);
+  return this.promise.then(onSuccess, onError);
+};
+
+LazyPromise.prototype.catch = function (onError) {
+  if (this.promise === null) this.promise = new Promise(this.executor);
+  return this.promise.catch(onError);
+};
+},{"./bundle-url":"node_modules/parcel/src/builtins/bundle-url.js"}],"app.ts":[function(require,module,exports) {
 "use strict";
 
 var _mithril = _interopRequireDefault(require("mithril"));
 
 var _lane = _interopRequireDefault(require("./lane"));
 
-var _util = require("./util");
+var _ramda = require("ramda");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var MainComponent = (0, _util.ReducerComponent)({
-  reducer: function reducer(state, action) {
-    return action(state);
+var __awaiter = void 0 && (void 0).__awaiter || function (thisArg, _arguments, P, generator) {
+  return new (P || (P = Promise))(function (resolve, reject) {
+    function fulfilled(value) {
+      try {
+        step(generator.next(value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function rejected(value) {
+      try {
+        step(generator["throw"](value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function step(result) {
+      result.done ? resolve(result.value) : new P(function (resolve) {
+        resolve(result.value);
+      }).then(fulfilled, rejected);
+    }
+
+    step((generator = generator.apply(thisArg, _arguments || [])).next());
+  });
+};
+
+var __generator = void 0 && (void 0).__generator || function (thisArg, body) {
+  var _ = {
+    label: 0,
+    sent: function sent() {
+      if (t[0] & 1) throw t[1];
+      return t[1];
+    },
+    trys: [],
+    ops: []
   },
-  initialState: function initialState() {
-    return {
-      lanes: Array.from({
-        length: 10
-      }).map(function (_, i) {
-        return i;
-      })
+      f,
+      y,
+      t,
+      g;
+  return g = {
+    next: verb(0),
+    "throw": verb(1),
+    "return": verb(2)
+  }, typeof Symbol === "function" && (g[Symbol.iterator] = function () {
+    return this;
+  }), g;
+
+  function verb(n) {
+    return function (v) {
+      return step([n, v]);
     };
-  },
-  view: function view(_a) {
-    var lanes = _a.lanes;
-    return (0, _mithril.default)(".bowling-container.container-fluid", [(0, _mithril.default)("a[href=/stats].stats-link", [(0, _mithril.default)("i.fa.fa-bar-chart-o"), "\xA0", "See Statistics from EYC"]), (0, _mithril.default)("h1.page-title", "EYC 2016 Live Scoring"), (0, _mithril.default)("h2.sub-title", "Scores are refreshed every 30 seconds"), (0, _mithril.default)(".row", lanes.map(function (lane_number) {
-      var l1 = lane_number * 2 + 1;
-      var l2 = lane_number * 2 + 2;
-      return [(0, _mithril.default)(".col-xs-12.col-sm-12.col-md-6.col-lg-6", (0, _mithril.default)(_lane.default, {
-        laneNumber: l1
-      })), (0, _mithril.default)(".col-xs-12.col-sm-12.col-md-6.col-lg-6", (0, _mithril.default)(_lane.default, {
-        laneNumber: l2
-      }))];
-    })), (0, _mithril.default)(".footer", [(0, _mithril.default)("p", [(0, _mithril.default)("i.fa.fa-heart"), " from ", (0, _mithril.default)("a[href=https://twitter.com/enordfjord]", "Einar"), (0, _mithril.default)("a[href=#].center", {
-      onclick: scrollToTop
-    }, [(0, _mithril.default)("i.fa.fa-arrow-circle-o-up", {
-      style: "font-size: 24px",
-      title: "Scroll to top"
-    })]), (0, _mithril.default)("span.pull-right", ["Powered by ", (0, _mithril.default)("a[href=https://xbowling.com]", "MSCN XBowling"), " API"])])])]);
   }
-});
+
+  function step(op) {
+    if (f) throw new TypeError("Generator is already executing.");
+
+    while (_) {
+      try {
+        if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+        if (y = 0, t) op = [op[0] & 2, t.value];
+
+        switch (op[0]) {
+          case 0:
+          case 1:
+            t = op;
+            break;
+
+          case 4:
+            _.label++;
+            return {
+              value: op[1],
+              done: false
+            };
+
+          case 5:
+            _.label++;
+            y = op[1];
+            op = [0];
+            continue;
+
+          case 7:
+            op = _.ops.pop();
+
+            _.trys.pop();
+
+            continue;
+
+          default:
+            if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) {
+              _ = 0;
+              continue;
+            }
+
+            if (op[0] === 3 && (!t || op[1] > t[0] && op[1] < t[3])) {
+              _.label = op[1];
+              break;
+            }
+
+            if (op[0] === 6 && _.label < t[1]) {
+              _.label = t[1];
+              t = op;
+              break;
+            }
+
+            if (t && _.label < t[2]) {
+              _.label = t[2];
+
+              _.ops.push(op);
+
+              break;
+            }
+
+            if (t[2]) _.ops.pop();
+
+            _.trys.pop();
+
+            continue;
+        }
+
+        op = body.call(thisArg, _);
+      } catch (e) {
+        op = [6, e];
+        y = 0;
+      } finally {
+        f = t = 0;
+      }
+    }
+
+    if (op[0] & 5) throw op[1];
+    return {
+      value: op[0] ? op[1] : void 0,
+      done: true
+    };
+  }
+};
+
+var MainComponent = function MainComponent() {
+  var lanes = (0, _ramda.range)(1, 11);
+  return {
+    view: function view() {
+      return (0, _mithril.default)(".bowling-container.container-fluid", [(0, _mithril.default)("a[href=/stats].stats-link", [(0, _mithril.default)("i.fa.fa-bar-chart-o"), "\xA0", "See Statistics from EYC"]), (0, _mithril.default)("h1.page-title", "EYC 2016 Live Scoring"), (0, _mithril.default)("h2.sub-title", "Scores are refreshed every 30 seconds"), (0, _mithril.default)(".row", lanes.map(function (laneNumber) {
+        var l1 = laneNumber * 2 + 1;
+        var l2 = laneNumber * 2 + 2;
+        return [(0, _mithril.default)(".col-xs-12.col-sm-12.col-md-6.col-lg-6", (0, _mithril.default)(_lane.default, {
+          laneNumber: l1
+        })), (0, _mithril.default)(".col-xs-12.col-sm-12.col-md-6.col-lg-6", (0, _mithril.default)(_lane.default, {
+          laneNumber: l2
+        }))];
+      })), (0, _mithril.default)(".footer", [(0, _mithril.default)("p", [(0, _mithril.default)("i.fa.fa-heart"), " from ", (0, _mithril.default)("a[href=https://twitter.com/enordfjord]", "Einar"), (0, _mithril.default)("a[href=#].center", {
+        onclick: scrollToTop
+      }, [(0, _mithril.default)("i.fa.fa-arrow-circle-o-up", {
+        style: "font-size: 24px",
+        title: "Scroll to top"
+      })]), (0, _mithril.default)("span.pull-right", ["Powered by ", (0, _mithril.default)("a[href=https://xbowling.com]", "MSCN XBowling"), " API"])])])]);
+    }
+  };
+};
 
 _mithril.default.mount(document.body, MainComponent); // @ts-ignore
 
 
 function scrollToTop(ev) {
-  if (ev.preventDefault) ev.preventDefault(); // @ts-ignore
+  return __awaiter(this, void 0, void 0, function () {
+    var _a, TweenLite, Power2;
 
-  TweenLite.to(window, 0.75, {
-    scrollTo: {
-      y: 0
-    },
-    ease: Power2.easeInOut
+    return __generator(this, function (_b) {
+      switch (_b.label) {
+        case 0:
+          if (ev.preventDefault) ev.preventDefault();
+          return [4
+          /*yield*/
+          , require("_bundle_loader")(require.resolve("gsap/TweenLite")) // @ts-ignore
+          ];
+
+        case 1:
+          _a = _b.sent(), TweenLite = _a.TweenLite, Power2 = _a.Power2; // @ts-ignore
+
+          return [4
+          /*yield*/
+          , require("_bundle_loader")(require.resolve("gsap/ScrollToPlugin")) // @ts-ignore
+          ];
+
+        case 2:
+          // @ts-ignore
+          _b.sent(); // @ts-ignore
+
+
+          TweenLite.to(window, 0.75, {
+            scrollTo: {
+              y: 0
+            },
+            ease: Power2.easeInOut
+          });
+          return [2
+          /*return*/
+          ];
+      }
+    });
   });
 }
-},{"mithril":"node_modules/mithril/mithril.js","./lane":"lane.ts","./util":"util.ts"}],"node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"mithril":"node_modules/mithril/mithril.js","./lane":"lane.ts","ramda":"node_modules/ramda/es/index.js","_bundle_loader":"node_modules/parcel/src/builtins/bundle-loader.js","gsap/TweenLite":[["TweenLite.3e293c45.js","node_modules/gsap/TweenLite.js"],"TweenLite.3e293c45.map","node_modules/gsap/TweenLite.js"],"gsap/ScrollToPlugin":[["ScrollToPlugin.6b9e925e.js","node_modules/gsap/ScrollToPlugin.js"],"ScrollToPlugin.6b9e925e.map","node_modules/gsap/ScrollToPlugin.js"]}],"node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -19969,7 +20239,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57351" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60345" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
@@ -20111,5 +20381,29 @@ function hmrAccept(bundle, id) {
     return hmrAccept(global.parcelRequire, id);
   });
 }
-},{}]},{},["node_modules/parcel/src/builtins/hmr-runtime.js","app.ts"], null)
+},{}],"node_modules/parcel/src/builtins/loaders/browser/js-loader.js":[function(require,module,exports) {
+module.exports = function loadJSBundle(bundle) {
+  return new Promise(function (resolve, reject) {
+    var script = document.createElement('script');
+    script.async = true;
+    script.type = 'text/javascript';
+    script.charset = 'utf-8';
+    script.src = bundle;
+
+    script.onerror = function (e) {
+      script.onerror = script.onload = null;
+      reject(e);
+    };
+
+    script.onload = function () {
+      script.onerror = script.onload = null;
+      resolve();
+    };
+
+    document.getElementsByTagName('head')[0].appendChild(script);
+  });
+};
+},{}],0:[function(require,module,exports) {
+var b=require("node_modules/parcel/src/builtins/bundle-loader.js");b.register("js",require("node_modules/parcel/src/builtins/loaders/browser/js-loader.js"));
+},{}]},{},["node_modules/parcel/src/builtins/hmr-runtime.js",0,"app.ts"], null)
 //# sourceMappingURL=/app.c61986b1.map

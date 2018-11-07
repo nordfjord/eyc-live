@@ -29,7 +29,7 @@ const Lane = ReducerComponent<LaneState, Id<LaneState>, LaneAttrs>({
   }),
   didMount({ laneNumber }, dispatch) {
     intervalStream(6e4)
-      .pipe(curry(endsOn)(dispatch))
+      .pipe(curry(endsOn)(dispatch.end))
       .chain(() => fromPromise(getLane(laneNumber)))
       .map(players => {
         const totalScore = getTotalScore(players)

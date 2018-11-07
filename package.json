@@ -4,6 +4,7 @@
   "description": "eyc livescoring through xbowling api",
   "main": "index.js",
   "dependencies": {
+    "@types/gsap": "^1.20.0",
     "@types/mithril": "^1.1.13",
     "@types/ramda": "^0.25.41",
     "bootstrap": "^3.3.6",
@@ -12,24 +13,18 @@
     "dc": "^2.0.0-beta.27",
     "flyd": "^0.2.8",
     "forever": "^0.15.1",
+    "gsap": "^2.0.2",
     "mithril": "^2.0.0-rc.0",
-    "parcel": "^1.10.3",
     "reductio": "^0.5.3",
     "request": "^2.69.0",
     "typescript": "^3.1.6"
   },
   "devDependencies": {
     "autoprefixer": "^6.3.3",
-    "babel-preset-es2015": "^6.6.0",
-    "babelify": "^7.2.0",
-    "browser-sync": "^2.11.1",
-    "browserify": "^13.0.0",
-    "mithril-objectify": "^1.2.4",
-    "nodemon": "^1.9.1",
-    "postcss-cli": "^2.5.1",
-    "stylus": "^0.54.2",
-    "uglifyjs": "^2.4.10",
-    "watchify": "^3.7.0"
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0",
+    "parcel": "^1.10.3",
+    "stylus": "^0.54.2"
   },
   "scripts": {
     "start": "parcel index.html",
