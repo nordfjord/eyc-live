@@ -64,11 +64,9 @@ m.mount(document.body, MainComponent)
 // @ts-ignore
 async function scrollToTop(ev) {
   if (ev.preventDefault) ev.preventDefault()
-  // @ts-ignore
-  const { TweenLite, Power2 } = await import("gsap/TweenLite")
-  // @ts-ignore
-  await import("gsap/ScrollToPlugin")
-
-  // @ts-ignore
-  TweenLite.to(window, 0.75, { scrollTo: { y: 0 }, ease: Power2.easeInOut })
+  window.scroll({
+    top: 0,
+    left: 0,
+    behavior: "smooth",
+  })
 }

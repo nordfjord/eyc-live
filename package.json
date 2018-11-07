@@ -4,7 +4,6 @@
   "description": "eyc livescoring through xbowling api",
   "main": "index.js",
   "dependencies": {
-    "@types/gsap": "^1.20.0",
     "@types/mithril": "^1.1.13",
     "@types/ramda": "^0.25.41",
     "bootstrap": "^3.3.6",
@@ -13,7 +12,6 @@
     "dc": "^2.0.0-beta.27",
     "flyd": "^0.2.8",
     "forever": "^0.15.1",
-    "gsap": "^2.0.2",
     "mithril": "^2.0.0-rc.0",
     "reductio": "^0.5.3",
     "request": "^2.69.0",
