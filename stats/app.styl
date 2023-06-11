@@ -1,0 +1,162 @@
+$frame-bg = #B34C3C;
+$well-bg = #1d1f21;
+$body-bg-color = lighten($well-bg, 5%);
+$text-color= #c5c8c6;
+$link-color = lighten($text-color, 10%);
+$tablet = 768px;
+$phone = 480px;
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-size: 16px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+@media only screen and (max-width: $phone) {
+  body {
+    font-size: 12px;
+  }
+}
+
+.container {
+  padding-right: 1rem;
+  padding-left: 1rem;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.app {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-gap: 1rem;
+  @media screen and (max-width: $tablet) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  @media screen and (max-width: $tablet) {
+    grid-template-columns: 1fr 1fr;
+  }
+  grid-column-gap: 1rem;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  @media screen and (max-width: $phone) {
+    grid-template-columns: 1fr;
+  }
+  grid-gap: 1rem;
+ 
+}
+
+.chart {
+  margin-bottom: 40px;
+}
+
+.highcharts-series > rect {
+  stroke: none;
+}
+
+a {
+  color: $link-color;
+  &:hover, &:active, &:focus {
+    color: $link-color;
+  }
+}
+
+table.table {
+  width: 100%;
+  color: $text-color;
+  background-color: $well-bg;
+  border-spacing: 0;
+  border-collapse: collaapse;
+  & > thead > tr > th {
+    border-bottom: 2px solid #ddd;
+    padding: .5rem;
+    vertical-align: bottom;
+    text-align: left;
+  }
+  & > tbody > tr > td {
+    border-top: 1px solid #ddd;
+    padding: .5rem;
+    vertical-align: top;
+    text-align: left;
+    line-height: 1.5;
+  }
+}
+
+.center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Space out content a bit */
+body {
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
+    background: $body-bg-color;
+}
+
+/* Everything but the jumbotron gets side spacing for mobile first views */
+.footer {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 1.25rem;
+    color: #777;
+    border-top: 1px solid #555;
+    > p {
+      position: relative;
+    }
+}
+
+.page-title {
+  color: $text-color;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 0.625rem;
+  font-size: 2.25rem;
+}
+
+.sub-title {
+  color: $text-color;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 2.5rem;
+  font-size: 1.5rem;
+}
+
+.number-container {
+  background: $well-bg;
+  color: $text-color;
+
+  height: 100px;
+  width: 100%;
+  text-align: center;
+  line-height: 100px;
+  margin-bottom: 40px;
+  position: relative;
+
+  > .number {
+    font-size: 2.5em;
+    display: inline-block;
+  }
+
+  > .description {
+    display: inline-block;
+    position: absolute;
+    bottom: 5px;
+    line-height: 1em;
+    left: 50%;
+    transform: translateX(-50%);
+
+  }
+}

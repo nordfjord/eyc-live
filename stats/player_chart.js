@@ -15,7 +15,7 @@ export default class PlayerGameChart extends AverageChart {
         let height = avgAll(this.group.all()).length * 19 + 182;
         this.options = {
           renderTo: document.getElementById('playerChart'),
-          title: 'Player Averages',
+          title: 'Athlete Averages',
           height: height
         };
     }
