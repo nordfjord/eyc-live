@@ -25,7 +25,7 @@
   },
   "scripts": {
     "serve": "browser-sync start --files app.min.js,app.css --server --logLevel debug",
-    "build:js": "esbuild --outfile=app.min.js --bundle --minify stats.js",
+    "build:js": "esbuild --sourcemap --outfile=app.min.js --bundle --minify stats.js",
     "build:css": "stylus app.styl -c && postcss --u autoprefixer -o app.css app.css",
     "build": "npm run build:js && npm run build:css",
     "watch:js": "esbuild --sourcemap --outfile=app.min.js --bundle --watch stats.js",

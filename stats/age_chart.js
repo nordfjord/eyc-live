@@ -16,4 +16,8 @@ export class AgeChart extends AverageChart {
         };
     }
 
+    data() {
+      return this.group.all()
+    }
+
 }
