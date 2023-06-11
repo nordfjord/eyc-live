@@ -4,6 +4,7 @@ import './highcharts_theme';
 import cf from './cf';
 
 import GameAverageChart from './game_averages';
+import { AgeChart } from './age_chart.js';
 import PlayerChart from './player_chart';
 import CountryChart from './country_chart';
 import DisciplineChart from './discipline_chart';
@@ -28,6 +29,7 @@ function init(data){
     cr.register(new GenderChart());
     cr.register(new HandChart());
     cr.register(new LanePairChart());
+    cr.register(new AgeChart());
     cr.register(new Table());
 
     cr.register(new NumberContainer({

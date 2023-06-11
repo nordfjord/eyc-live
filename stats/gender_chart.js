@@ -10,10 +10,14 @@ export default class GenderChart extends AverageChart {
         this.dimension = cf.dimension(d => d.Gender);
         this.group = scoreReducer(this.dimension.group());
 
+        const el = document.getElementById('genderChart');
+
         this.options = {
-          renderTo: document.getElementById('genderChart'),
+          renderTo: el,
           title: 'Gender Averages'
         };
+
+        if (this.group.all().length < 2) el.parentNode.removeChild(el) 
     }
 
 }

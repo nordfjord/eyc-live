@@ -62,15 +62,13 @@ export default class LanePairChart extends AverageChart {
   postRedraw() {
     let _all = this.data();
     this.chart.series[0].setData(_all.map(d => {
-      let q = this.getQuartiles(d);
-
       return {
         category: d.key,
-        low: q[0],
-        q1: q[1],
-        median: q[2],
-        q3: q[3],
-        high: q[4],
+        low: d.value.min,
+        q1: d.value.q1,
+        median: d.value.median,
+        q3: d.value.q3,
+        high: d.value.max,
         color: this.getColor(d) || Highcharts.theme.colors[0]
       };
     }), false);
