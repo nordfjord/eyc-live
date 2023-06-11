@@ -1,5 +1,5 @@
 import crossfilter from 'crossfilter2';
-import d3 from 'd3';
+import { ascending } from 'd3-array'; 
 
 let cf = crossfilter();
 
@@ -7,9 +7,7 @@ cf.addData = function(data) {
     cf.data = data;
     window.data = data;
 
-    data.sort((a,b) => {
-      return d3.ascending(a.DisciplineOrder, b.DisciplineOrder);
-    });
+    data.sort((a,b) => ascending(a.DisciplineOrder, b.DisciplineOrder));
 
     cf.add(data);
 };

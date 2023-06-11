@@ -1,6 +1,16 @@
-import d3 from 'd3';
-const avgDescending = (a,b)=> d3.descending(a.value.avg, b.value.avg);
+import cf from 'crossfilter2';
 
+const bisectDescending = cf.bisect.by(x => -x.value.avg).right;
+
+// single pass filter and sort descending by average
 export default function avgAll(all) {
-  return all.filter(d => d.value.avg !== 0).sort(avgDescending);
+  let result = []
+  for (let i = 0; i < all.length; ++i) {
+    let x = all[i];
+    if (x.value.avg !== 0) {
+      const idx = bisectDescending(result, -x.value.avg, 0, result.length);
+      result.splice(idx, 0, x);
+    }
+  }
+  return result;
 }

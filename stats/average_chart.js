@@ -1,12 +1,9 @@
 import avgAll from './avgAll';
-
-import cr from './chart_registry';
-
+import cr from './chart_registry.js';
 
 export default class AverageChart {
   constructor() {
     this.filters = [];
-    cr.register(this);
   }
 
   hasFilter(key){
@@ -59,7 +56,7 @@ export default class AverageChart {
           cursor: 'pointer',
           point: {
             events: {
-              click: function(e) {
+              click() {
                 _this.filter(this.category);
                 cr.redrawAll();
               }
@@ -103,13 +100,18 @@ export default class AverageChart {
     let shouldRedraw = !this._redraw;
     if (!this.chart) return this.render();
     let _all = this.data();
-    let _keys = _all.map(d => d.key);
-    let _values = _all.map(d => ({
-      y: d.value.avg,
-      color: this.getColor(d)
-    }));
-    this.chart.xAxis[0].setCategories(_keys, false);
-    this.chart.series[0].setData(_values, shouldRedraw);
+    let keys = []
+    let values = []
+    for (let i = 0; i < _all.length; ++i) {
+      let d = _all[i];
+      keys.push(d.key);
+      values.push({
+        y: d.value.avg,
+        color: this.getColor(d)
+      });
+    }
+    this.chart.xAxis[0].setCategories(keys, false);
+    this.chart.series[0].setData(values, shouldRedraw);
     if (this._redraw) this._redraw(_all);
     if (this.postRedraw) this.postRedraw();
   }

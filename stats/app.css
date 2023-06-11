@@ -1,1 +1,141 @@
-*{box-sizing:border-box}body{font-size:16px;font-family:Arial,Helvetica,sans-serif}@media only screen and (max-width:480px){body{font-size:12px}}.container{padding-right:1rem;padding-left:1rem;margin-right:auto;margin-left:auto}.app{display:-ms-grid;display:grid;-ms-grid-columns:1fr 2fr;grid-template-columns:1fr 2fr;grid-gap:1rem}@media screen and (max-width:768px){.app{-ms-grid-columns:1fr;grid-template-columns:1fr}}.grid-4{display:-ms-grid;display:grid;-ms-grid-columns:(1fr)[4];grid-template-columns:repeat(4,1fr);grid-column-gap:1rem}@media screen and (max-width:768px){.grid-4{-ms-grid-columns:1fr 1fr;grid-template-columns:1fr 1fr}}.grid-2{display:-ms-grid;display:grid;-ms-grid-columns:1fr 1fr;grid-template-columns:1fr 1fr;grid-gap:1rem}@media screen and (max-width:480px){.grid-2{-ms-grid-columns:1fr;grid-template-columns:1fr}}.chart{margin-bottom:40px}.highcharts-series > rect{stroke:none}a{color:#cbcecc}a:hover,a:active,a:focus{color:#cbcecc}table.table{width:100%;color:#c5c8c6;background-color:#1d1f21;border-spacing:0;border-collapse:collaapse}table.table > thead > tr > th{border-bottom:2px solid #ddd;padding:.5rem;vertical-align:bottom;text-align:left}table.table > tbody > tr > td{border-top:1px solid #ddd;padding:.5rem;vertical-align:top;text-align:left;line-height:1.5}.center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)}body{padding-top:1.25rem;padding-bottom:1.25rem;background:#272a2d}.footer{padding-left:1rem;padding-right:1rem;padding-top:1.25rem;color:#777;border-top:1px solid #555}.footer > p{position:relative}.page-title{color:#c5c8c6;width:100%;text-align:center;margin-bottom:.625rem;font-size:2.25rem}.sub-title{color:#c5c8c6;width:100%;text-align:center;margin-bottom:2.5rem;font-size:1.5rem}.number-container{background:#1d1f21;color:#c5c8c6;height:100px;width:100%;text-align:center;line-height:100px;margin-bottom:40px;position:relative}.number-container > .number{font-size:2.5em;display:inline-block}.number-container > .description{display:inline-block;position:absolute;bottom:5px;line-height:1em;left:50%;transform:translateX(-50%)}
+* {
+  box-sizing: border-box;
+}
+body {
+  font-size: 16px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+@media only screen and (max-width: 480px) {
+  body {
+    font-size: 12px;
+  }
+}
+.container {
+  padding-right: 1rem;
+  padding-left: 1rem;
+  margin-right: auto;
+  margin-left: auto;
+}
+.app {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-gap: 1rem;
+}
+@media screen and (max-width: 768px) {
+  .app {
+    grid-template-columns: 1fr;
+  }
+}
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-column-gap: 1rem;
+}
+@media screen and (max-width: 768px) {
+  .grid-4 {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 1rem;
+}
+@media screen and (max-width: 480px) {
+  .grid-2 {
+    grid-template-columns: 1fr;
+  }
+}
+.chart {
+  margin-bottom: 40px;
+}
+.highcharts-series > rect {
+  stroke: none;
+}
+a {
+  color: #cbcecc;
+}
+a:hover,
+a:active,
+a:focus {
+  color: #cbcecc;
+}
+table.table {
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 1.25rem;
+  color: #c5c8c6;
+  background-color: #1d1f21;
+  border-spacing: 0;
+  border-collapse: collaapse;
+}
+table.table > thead > tr > th {
+  border-bottom: 2px solid #ddd;
+  padding: 0.5rem;
+  vertical-align: bottom;
+  text-align: left;
+}
+table.table > tbody > tr > td {
+  border-top: 1px solid #ddd;
+  padding: 0.5rem;
+  vertical-align: top;
+  text-align: left;
+  line-height: 1.5;
+}
+.center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+/* Space out content a bit */
+body {
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
+  background: #272a2d;
+}
+/* Everything but the jumbotron gets side spacing for mobile first views */
+.footer {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 1.25rem;
+  color: #777;
+  border-top: 1px solid #555;
+  text-align: right;
+}
+.page-title {
+  color: #c5c8c6;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 0.625rem;
+  font-size: 2.25rem;
+}
+.sub-title {
+  color: #c5c8c6;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 2.5rem;
+  font-size: 1.5rem;
+}
+.number-container {
+  background: #1d1f21;
+  color: #c5c8c6;
+  height: 100px;
+  width: 100%;
+  text-align: center;
+  line-height: 100px;
+  margin-bottom: 40px;
+  position: relative;
+}
+.number-container > .number {
+  font-size: 2.5em;
+  display: inline-block;
+}
+.number-container > .description {
+  display: inline-block;
+  position: absolute;
+  bottom: 5px;
+  line-height: 1em;
+  left: 50%;
+  transform: translateX(-50%);
+}

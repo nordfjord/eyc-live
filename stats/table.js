@@ -1,10 +1,10 @@
-import d3 from 'd3';
+import { select } from 'd3-selection';
+import {ascending} from 'd3-array';
+import {format as d3_format} from 'd3-format';
 
 import cf from './cf';
 
-import cr from './chart_registry';
-
-const _format = d3.format(',.2f');
+const formatNumber = d3_format(',.2f');
 
 function reduceAdd(p,v) {
   let game = +v.Game;
@@ -54,7 +54,7 @@ function reduceInitial() {
   };
 }
 
-let _values = ['Name', 'Discipline', 'Gender', 'G1', 'G2', 'G3', 'G4', 'G5', 'G6', 'Average'];
+const headings = ['Name', 'Discipline', 'Gender', 'G1', 'G2', 'G3', 'G4', 'G5', 'G6', 'Average'];
 
 export default class Table {
   constructor() {
@@ -66,9 +66,7 @@ export default class Table {
       reduceInitial
     );
 
-    this.el = d3.select('#table > tbody');
-
-    cr.register(this);
+    this.el = select('#table > tbody');
   }
 
   render() {
@@ -84,20 +82,15 @@ export default class Table {
     _sel.enter()
       .append('tr')
       .selectAll('td')
-      .data(function(row, i){
-        return _values.map(k => row[k]);
-      })
+      .data(row => headings.map(k => row[k]))
       .enter()
       .append('td')
-      .html((d,i) => _values[i] == 'Average' ? _format(d) : d);
+      .html((d,i) => headings[i] == 'Average' ? formatNumber(d) : d);
 
     _sel.sort((a,b)=> {
-      let i = d3.ascending(a.order, b.order);
-
-      let sorts = [d3.ascending(a.order, b.order), d3.ascending(a.Gender, b.Gender), d3.descending(a.Average, b.Average)];
-
-      for (let _i = 0; _i < sorts.length; ++_i) {
-        if (sorts[_i] !== 0) return sorts[_i];
+      const sorts = [ascending(a.order, b.order), ascending(a.Gender, b.Gender), descending(a.Average, b.Average)];
+      for (let i = 0; i < sorts.length; ++i) {
+        if (sorts[i] !== 0) return sorts[i];
       }
       return 0;
     });

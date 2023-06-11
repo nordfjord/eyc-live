@@ -1,22 +1,21 @@
+import { Reducer } from 'redugator';
 import cf from './cf';
-import cr from './chart_registry';
-import d3 from 'd3';
+import { format as d3_format } from 'd3-format';
+import { select } from 'd3-selection';
+import { interpolate } from 'd3-interpolate';
 
-const format = d3.format(',.0f');
-const universal_dim = cf.dimension(d => 'all');
+const format = d3_format(',.0f');
+const universal_dim = cf.dimension(_ => 'all');
 
 export default class NumberContainer {
   constructor({anchor, description, reducer, accessor}) {
-    this.el = d3.select(anchor);
-    this.group = reducer(universal_dim.group());
+    this.el = select(anchor);
+    this.group = Reducer.reduceGroup(reducer, universal_dim.group());
 
     this.description = description;
     this.accessor = accessor;
 
     this._value = 0;
-
-    cr.register(this);
-
   }
 
   render() {
@@ -38,7 +37,7 @@ export default class NumberContainer {
 
     this.el.selectAll('.number').transition().duration(375)
       .tween('text', d => {
-        const i = d3.interpolate(this._value, d);
+        const i = interpolate(this._value, d);
         this._value = d;
         return function(t) {
           this.textContent = format(i(t));

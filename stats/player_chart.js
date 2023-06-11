@@ -3,7 +3,6 @@ import scoreReducer from './scoreReducer';
 
 import AverageChart from './average_chart';
 import avgAll from './avgAll';
-let gameChart, gameDim, gameGrp;
 
 export default class PlayerGameChart extends AverageChart {
 

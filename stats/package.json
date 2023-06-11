@@ -4,11 +4,16 @@
   "description": "eyc livescoring through xbowling api",
   "main": "index.js",
   "dependencies": {
-    "crossfilter2": "1.4.0-alpha.1",
-    "d3": "^3.5.16",
+    "crossfilter2": "1.5.4",
+    "d3-array": "^3.2.4",
+    "d3-dsv": "^3.0.1",
+    "d3-format": "^3.1.0",
+    "d3-interpolate": "^3.0.1",
+    "d3-selection": "^3.0.0",
+    "d3-transition": "^3.0.1",
     "highcharts": "^10.3.3",
     "mithril": "^0.2.3",
-    "reductio": "^0.5.3"
+    "redugator": "^0.1.0"
   },
   "devDependencies": {
     "autoprefixer": "^6.3.3",
@@ -23,7 +28,7 @@
     "build:js": "esbuild --outfile=app.min.js --bundle --minify stats.js",
     "build:css": "stylus app.styl -c && postcss --u autoprefixer -o app.css app.css",
     "build": "npm run build:js && npm run build:css",
-    "watch:js": "esbuild --outfile=app.min.js --bundle --watch stats.js",
+    "watch:js": "esbuild --sourcemap --outfile=app.min.js --bundle --watch stats.js",
     "watch:css": "stylus -w app.styl",
     "watch": "concurrently npm:watch:js npm:watch:css",
     "dev": "concurrently npm:serve npm:watch",

@@ -1,12 +1,8 @@
 import cf from './cf';
-import reductio from 'reductio';
-import d3 from 'd3';
+import { ascending } from 'd3-array';
 
-import cr from './chart_registry';
-
-function unique(arr, accessor = d => d) {
-  return arr.reduce((p,v) => (!~p.indexOf(accessor(v)) ? p.push(v) : null, p), []);
-}
+import { Reducer } from 'redugator';
+import { averageScoreReducer } from './reducers';
 
 export default class PlayerGameChart {
 
@@ -22,7 +18,7 @@ export default class PlayerGameChart {
 
           return [disc + ': ' + game, discOrder + game, d.Gender];
         });
-        this.group = reductio().avg('Score')(this.dimension.group());
+        this.group = Reducer.reduceGroup(averageScoreReducer, this.dimension.group());
 
         this.dimension2 = cf.dimension(d => {
           let game = +d.Game;
@@ -35,47 +31,44 @@ export default class PlayerGameChart {
           return discOrder + game;
         });
 
-        this.group2 = reductio().avg('Score')(this.dimension2.group());
+        this.group2 = Reducer.reduceGroup(averageScoreReducer, this.dimension2.group());
 
         this.initialTotal = this.group2.all().reduce((p,v)=> p + v.value.sum, 0);
-
-        cr.register(this);
     }
 
     render() {
-        let _all = this.group.all().sort((a,b)=> {
-          return d3.ascending(a.key[1], b.key[1]);
-        });
+        let _all = this.group.all().sort((a,b)=> ascending(a.key[1], b.key[1]));
+        let genders = new Map()
+        let categories = new Set()
 
-        let genders = unique(_all.map(d => d.key[2]));
+        for (let i = 0; i < _all.length; ++i) {
+          let d = _all[i];
+          let gender = d.key[2]
+          if (!genders.has(gender)) genders.set(gender, []);
+          genders.get(gender).push(d.value.avg);
+          categories.add(d.key[0]);
+        }
+
+        this.genderCount = genders.size;
         if (!_all.length) return;
-        let _categories = unique(_all.map(d => d.key[0]));
         this.chart = new Highcharts.Chart({
           chart: {
             renderTo: document.getElementById('playerGameChart'),
             type: 'line'
           },
-          title: {
-            text: 'Game Averages'
-          },
+          title: { text: 'Game Averages' },
           xAxis: {
-            categories: _categories,
-            title: {
-              text: null
-            }
+            categories: Array.from(categories),
+            title: { text: null },
           },
           yAxis: {
             min: 0,
-            title: {
-              text: 'Average'
-            },
-            labels: {
-              overflow: 'justify'
-            }
+            title: { text: 'Average' },
+            labels: { overflow: 'justify' }
           },
-          series: genders.map((g,i) => ({
-            name: g + ' Average',
-            data: _all.filter(d => d.key[2] === g).map(d => d.value.avg),
+          series: Array.from(genders.keys()).map((gender, i) => ({
+            name: gender + ' Average',
+            data: genders.get(gender),
             color: Highcharts.theme.colors[i+1]
           }))
         });
@@ -86,45 +79,28 @@ export default class PlayerGameChart {
 
         let _all = this.group2.all();
 
-        let data = _all.map(d => d.value.avg);
+        let data = []; 
+        let total = 0;
 
-        let total = _all.reduce((p,v)=> p + v.value.sum, 0);
+        for (let i = 0; i < _all.length; ++i) {
+          let d = _all[i];
+          data.push(d.value.avg);
+          total += d.value.sum;
+        }
+
+        const lastIdx = this.chart.series.length - 1;
+        const lastSeries = this.chart.series[lastIdx];
 
 
-        if (total === this.initialTotal) {
-          if (this.chart.series[2]) this.chart.series[2].remove(true);
+        if (total === this.initialTotal && lastSeries.name === 'Filter Average') {
+          lastSeries.remove(true);
           return;
         }
 
-        if (this.chart.series[2]) {
-          this.chart.series[2].setData(data);
+        if (lastSeries.name === 'Filter Average') {
+          lastSeries.setData(data);
         } else {
           this.chart.addSeries({
-            name: 'Filter Average',
-            data: data,
-            color: Highcharts.theme.colors[0]
-          });
-        }
-
-    }
-
-    update() {
-        if (!gameChart) return initGameChart();
-        let scaleRange = [];
-        disciplineGrp.all().forEach(d => {
-          scaleRange = scaleRange.concat(games.map(g => d.key + ': ' + g));
-        });
-        let _all = gameGrp.all();
-        gameChart.xAxis[0].setCategories(scaleRange, false);
-        let data = _all.map(d => d.value.avg);
-        if (data.join('') === allAvg.map(d => d.value.avg).join('')) {
-          gameChart.series[2].remove(true);
-          return;
-        }
-        if (gameChart.series[2]) {
-          gameChart.series[2].setData(data);
-        } else {
-          gameChart.addSeries({
             name: 'Filter Average',
             data: data,
             color: Highcharts.theme.colors[0]
