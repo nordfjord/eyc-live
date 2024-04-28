@@ -16,6 +16,7 @@ import Table from './table';
 import cr from './chart_registry';
 import * as R from 'redugator/reducers';
 import { averageScoreReducer } from './reducers';
+import SquadChart from './squad_chart.js';
 
 const ssv = dsvFormat(';')
 
@@ -27,6 +28,7 @@ function init(data){
     cr.register(new CountryChart());
     cr.register(new DisciplineChart());
     cr.register(new GenderChart());
+    cr.register(new SquadChart());
     cr.register(new HandChart());
     cr.register(new LanePairChart());
     cr.register(new AgeChart());

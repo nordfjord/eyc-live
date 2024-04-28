@@ -21,7 +21,8 @@
     "concurrently": "^8.2.0",
     "esbuild": "^0.18.0",
     "postcss-cli": "^2.5.1",
-    "stylus": "^0.54.2"
+    "stylus": "^0.54.2",
+    "typescript": "^5.4.5"
   },
   "scripts": {
     "serve": "browser-sync start --files app.min.js,app.css --server --logLevel debug",
