@@ -3,21 +3,65 @@ $well-bg = #1d1f21;
 $body-bg-color = lighten($well-bg, 5%);
 $text-color= #c5c8c6;
 $link-color = lighten($text-color, 10%);
+$tablet = 768px;
+$phone = 480px;
 
-pxem(a, b=16) {
-  return (a/b)em;
+* {
+  box-sizing: border-box;
 }
-
-
-@require './pins.styl';
 
 body {
   font-size: 16px;
+  font-family: Arial, Helvetica, sans-serif;
 }
-@media only screen and (max-width: 480px) {
+
+@media only screen and (max-width: $phone) {
   body {
     font-size: 12px;
   }
+}
+
+.container {
+  padding-right: 1rem;
+  padding-left: 1rem;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.app {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-gap: 1rem;
+  @media screen and (max-width: $tablet) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  @media screen and (max-width: $tablet) {
+    grid-template-columns: 1fr 1fr;
+  }
+  grid-column-gap: 1rem;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  @media screen and (max-width: $phone) {
+    grid-template-columns: 1fr;
+  }
+  grid-gap: 1rem;
+ 
+}
+
+.chart {
+  margin-bottom: 40px;
+}
+
+.highcharts-series > rect {
+  stroke: none;
 }
 
 a {
@@ -27,9 +71,27 @@ a {
   }
 }
 
-table {
+table.table {
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 1.25rem;
   color: $text-color;
   background-color: $well-bg;
+  border-spacing: 0;
+  border-collapse: collaapse;
+  & > thead > tr > th {
+    border-bottom: 2px solid #ddd;
+    padding: .5rem;
+    vertical-align: bottom;
+    text-align: left;
+  }
+  & > tbody > tr > td {
+    border-top: 1px solid #ddd;
+    padding: .5rem;
+    vertical-align: top;
+    text-align: left;
+    line-height: 1.5;
+  }
 }
 
 .center {
@@ -39,276 +101,37 @@ table {
   transform: translate(-50%, -50%);
 }
 
-.uppercase {
-    text-transform: uppercase;
-}
-
-.lane-container {
-    border-radius: pxem(5);
-    background-color: $well-bg;
-    padding: pxem(5);
-    margin-bottom: pxem(10);
-}
-
-.lane-row, .lane-name {
-    margin: 0;
-    padding:0;
-    width: 100%;
-}
-
-.lane-name {
-    font-size: pxem(14);
-    margin-bottom: pxem(0);
-    font-weight: bold;
-    text-align: center;
-    color: $text-color;
-}
-
-.lane-row {
-    margin-bottom: pxem(5);
-    user-select: none;
-    li {
-        float: left;
-        background-color: transparent;
-        list-style: none;
-        padding: 0 0 0 pxem(2);
-        margin: 0;
-        width: 9.523810%;
-    }
-    li.tenth-frame {
-        width: 14.285715%;
-    }
-}
-
-
-
-.frame-number-container {
-    width: 100%;
-    background-color: $frame-bg;
-    margin: 0;
-    padding: 0;
-    border-radius: pxem(2);
-    display: block;
-    min-height: pxem(20);
-    text-align: center;
-    color: $text-color;
-    font-weight: bold;
-}
-
-.score-container, .balls-container {
-    min-height: pxem(64);
-    background-color: $frame-bg;
-    border-radius: pxem(2);
-    margin: 2px 0 0 0;
-    padding: 0;
-    width: 100%;
-    color: $text-color;
-    position: relative;
-    overflow: hidden;
-}
-
-.balls-container {
-    display: none;
-    width: 100%;
-    height: pxem(65);
-}
-
-.score-container {
-    line-height: pxem(20);
-    padding-top: pxem(5);
-    > .frame-score {
-        font-size: pxem(25);
-        text-align: center;
-        padding-top: pxem(8);
-        padding-bottom: pxem(4);
-        clear: both;
-        display: block;
-        @media only screen and (max-width: 480px) {
-          font-size: pxem(20);
-        }
-    }
-    > .throw-score {
-        float: left;
-        width: 50%;
-        text-align: center;
-        font-size: pxem(22);
-
-        &.split {
-          text-decoration: underline;
-        }
-        @media only screen and (max-width: 480px) {
-          font-size: pxem(18);
-        }
-    }
-}
-.tenth-frame .throw-score {
-    width: 33%;
-}
-
-.header-home-icon {
-    width: pxem(50);
-    height: pxem(50);
-    position: absolute;
-    top: pxem(5);
-    right: pxem(10);
-}
-
-.lane-row > li:last-child .score-container > .ball {
-    width: 33%;
-}
-
-.loading-message {
-    font-size: pxem(25);
-    font-weight: bold;
-    width: 100%;
-    text-align: center;
-    margin-top: pxem(15);
-}
-
-.pins-container {
-    width: 80%;
-    padding-left: pxem(6);
-    padding-top: pxem(5);
-}
-
-.ballRow {
-    clear: both;
-    height: pxem(12);
-}
-
-.ball {
-    border-radius: 5em 5em 5em 5em;
-    display: block;
-    float: left;
-    background-color: $text-color;
-    width: 20%;
-    height: 100%;
-    margin: 0 2%;
-}
-
-.downed {
-    background-color: #606568;
-}
-
-.ballPlaceholder {
-    display: block;
-    float: left;
-    background-color: transparent;
-    width: 12%;
-    height: 100%;
-}
-
-.frame-throw-number {
-    position: relative;
-    bottom: pxem(15);
-    font-size: pxem(25);
-    font-weight: bold;
-    color: rgba(255, 255, 255, 0.5);
-}
-
-.single-select {
-    border: pxem(1) solid #E5E5E5;
-    border-radius: pxem(4) pxem(4) pxem(4) pxem(4);
-    margin-bottom: pxem(2);
-    padding: pxem(10);
-}
-
-.single-select > a {
-    display: block;
-}
-
-.strong {
-    font-weight: bold;
-}
-
-.embedded-video {
-    width: 100%;
-    margin: 0 auto;
-}
-
-.browsehappy {
-    margin: 0.2em 0;
-    background: #ccc;
-    color: #000;
-    padding: 0.2em 0;
-}
-
 /* Space out content a bit */
 body {
-    padding-top: pxem(20);
-    padding-bottom: pxem(20);
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
     background: $body-bg-color;
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
-.header,
-.marketing,
 .footer {
-    padding-left: pxem(15);
-    padding-right: pxem(15);
-}
-
-/* Custom page header */
-.header {
-    border-bottom: pxem(1) solid #e5e5e5;
-}
-
-/* Make the masthead heading the same height as the navigation */
-.header h3 {
-    margin-top: 0;
-    margin-bottom: 0;
-    line-height: pxem(40);
-    padding-bottom: pxem(19);
-}
-
-/* Custom page footer */
-.footer {
-    padding-top: pxem(19);
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 1.25rem;
     color: #777;
-    border-top: pxem(1) solid #555;
-    > p {
-      position: relative;
-    }
+    border-top: 1px solid #555;
+    text-align: right;
 }
-
-.btn-bowl {
-    background-color:#B34C3C;
-    color: $text-color;
-}
-
-.selector-form {
-    color:#B34C3C;
-}
-
 
 .page-title {
   color: $text-color;
   width: 100%;
   text-align: center;
-  margin-bottom: pxem(10);
-  font-size: pxem(36);
+  margin-bottom: 0.625rem;
+  font-size: 2.25rem;
 }
 
 .sub-title {
   color: $text-color;
   width: 100%;
   text-align: center;
-  margin-bottom: pxem(40);
-  font-size: pxem(24);
-}
-
-.settings {
-  position: absolute;
-  top: 1em;
-  right: 1em;
-  color: $text-color;
-  > * > .fa {
-    font-size: 2em;
-  }
-  > img {
-    height 50px;
-    width: auto;
-  }
+  margin-bottom: 2.5rem;
+  font-size: 1.5rem;
 }
 
 .number-container {
